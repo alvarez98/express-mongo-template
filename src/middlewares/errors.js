@@ -21,7 +21,7 @@ const handleErrors = (err, req, res, next) => {
  * @param {Function} next - Express next middleware function
  */
 const notFound = (req, res, next) => {
-  res.status(404).send('Sorry cant find that!');
+  res.status(404).send({ error: 'Not found' })
 }
 
 module.exports = { handleErrors, notFound }

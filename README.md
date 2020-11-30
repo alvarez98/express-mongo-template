@@ -25,12 +25,13 @@ $ npm i
 ```sh
 $ source .env
 ```
+This step is optional
 
 ## Deployment :package:
 
 - Init your database and server with:
 ```sh
-$ docker-compose up -d
+$ docker-compose up --build
 ```
 
 - To start to mongo express interface just navigate to localhost on port 8081

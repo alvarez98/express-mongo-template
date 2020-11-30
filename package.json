@@ -24,7 +24,6 @@
     "uuid": "^8.3.1"
   },
   "devDependencies": {
-    "eslint": "^7.14.0",
     "standard": "^16.0.3"
   },
   "scripts": {
