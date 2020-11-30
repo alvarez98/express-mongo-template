@@ -1,0 +1,3 @@
+# GET /api/
+GET http://localhost:5000/api/
+content-type: application/json
