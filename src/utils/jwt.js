@@ -15,7 +15,7 @@ const generateToken = (data, time) =>
   jwt.sign(
     {
       exp: Math.floor(Date.now() / 1000 + time * 60),
-      ...data,
+      ...data
     },
     SECRET
   )

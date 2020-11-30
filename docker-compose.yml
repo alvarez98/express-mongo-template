@@ -2,6 +2,8 @@ version: '3'
 
 services:
   api:
+    container_name: api
+    restart: unless-stopped
     build: 
       dockerfile: ./dockerfile
       context: .
@@ -14,8 +16,9 @@ services:
     depends_on: 
       - mongo
   mongo:
+    container_name: mongo_db
     image: mongo
-    restart: always
+    restart: unless-stopped
     environment:
       MONGO_INITDB_ROOT_USERNAME: $MONGO_INITDB_ROOT_USERNAME
       MONGO_INITDB_ROOT_PASSWORD: $MONGO_INITDB_ROOT_PASSWORD
@@ -29,8 +32,9 @@ services:
       - ./src/db/mongo-init.sh:/docker-entrypoint-initdb.d/mongo-init.sh
 
   mongo-express:
+    container_name: mongo_express
     image: mongo-express
-    restart: always
+    restart: unless-stopped
     ports:
       - 8081:8081
     environment:

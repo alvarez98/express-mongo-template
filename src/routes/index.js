@@ -6,8 +6,8 @@ const swaggerDocument = require('../swagger.json')
 
 api.use('/docs', swaggerUi.serve)
 api.get('/docs', swaggerUi.setup(swaggerDocument))
-api.get('/', (req, res) => { 
-    res.send({ message: 'Home' })
+api.get('/', (req, res) => {
+  res.send({ message: 'Home' })
 })
 
 module.exports = api
