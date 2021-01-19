@@ -32,6 +32,6 @@
     "lint": "standard --fix"
   },
   "keywords": [],
-  "author": "",
+  "author": "Adolfo Esteban Alvarez Pacheco",
   "license": "ISC"
 }
