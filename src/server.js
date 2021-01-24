@@ -1,14 +1,18 @@
 'use strict'
-require('dotenv').config()
 const connection = require('./db/config')
 const app = require('./app')
-const { PORT = 5000 } = process.env
+const { Configuration, Keys } = require('./config')
+const PORT = Configuration.get(Keys.SERVER_PORT) || 5000
 
 // Start server
 app.listen(PORT, () => {
   connection()
-    .then(() => { console.log('Database is connected') })
-    .catch((err) => { console.log(err) })
+    .then(() => {
+      console.log('Database is connected')
+    })
+    .catch((err) => {
+      console.error(err)
+    })
 
   console.log(`API REST running on http://localhost:${PORT}`)
 })

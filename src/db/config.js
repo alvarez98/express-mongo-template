@@ -1,22 +1,25 @@
-'use strict'
-require('dotenv').config()
 const mongoose = require('mongoose')
+const { Configuration, Keys } = require('../config')
 
-const {
-  MONGO_DB_USERNAME,
-  MONGO_DB_PASSWORD,
-  MONGO_HOSTNAME,
-  MONGO_PORT,
-  MONGO_DB
-} = process.env
+const USERNAME = Configuration.get(Keys.DB_USERNAME)
+const PASSWORD = Configuration.get(Keys.DB_PASSWORD)
+const HOST = Configuration.get(Keys.DB_HOST)
+const PORT = Configuration.get(Keys.DB_PORT)
+const DB_NAME = Configuration.get(Keys.DB_NAME)
 
-const options = {
+const OPTIONS = {
   useNewUrlParser: true,
   connectTimeoutMS: 10000,
-  useUnifiedTopology: true
+  useUnifiedTopology: true,
+  // useCreateIndex: true,
+  // useFindAndModify: false,
+  // autoIndex: false, // Don't build indexes
+  // poolSize: 10, // Maintain up to 10 socket connections
+  // serverSelectionTimeoutMS: 5000, // Keep trying to send operations for 5 seconds
+  // socketTimeoutMS: 45000, // Close sockets after 45 seconds of inactivity
+  // family: 4 // Use IPv4, skip trying IPv6
 }
 
-const credentials = `${MONGO_DB_USERNAME}:${MONGO_DB_PASSWORD}@`
+const URI = `mongodb://${USERNAME}:${PASSWORD}@${HOST}:${PORT}/${DB_NAME}`
 
-const URI = `mongodb://${credentials}${MONGO_HOSTNAME}:${MONGO_PORT}/${MONGO_DB}`
-module.exports = () => mongoose.connect(URI, options)
+module.exports = () => mongoose.connect(URI, OPTIONS)
