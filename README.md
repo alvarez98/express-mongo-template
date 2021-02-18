@@ -1,6 +1,6 @@
-# Express - MongoDB Template
+# Notifications Service
 
-Template for developing an API with Express and MongoDB
+Notifications Service for Digital Window
 
 ## Getting Started :arrow_forward:
 
