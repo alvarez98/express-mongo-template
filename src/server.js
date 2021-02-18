@@ -16,14 +16,14 @@ io.on('connection', (socket) => {
 
 // Start server
 app.listen(PORT, () => {
-  connection()
-    .then(() => {
-      console.log('Database is connected')
-    })
-    .catch((err) => {
-      console.error(err)
-      process.exit(0)
-    })
+  // connection()
+  //   .then(() => {
+  //     console.log('Database is connected')
+  //   })
+  //   .catch((err) => {
+  //     console.error(err)
+  //     process.exit(0)
+  //   })
 
   console.log(`API REST running on http://localhost:${PORT}`)
 })

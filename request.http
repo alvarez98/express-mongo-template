@@ -1,3 +1,6 @@
-# GET /api/
-GET http://localhost:5000/api/notexits
-content-type: application/json
+@port = 5000
+@baseUrl = http://localhost:{{port}}/api/
+
+### GET /api/notexits
+GET {{baseUrl}}/notexits
+Content-Type: application/json
