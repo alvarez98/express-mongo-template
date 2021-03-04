@@ -11,7 +11,7 @@ const OPTIONS = {
   useNewUrlParser: true,
   connectTimeoutMS: 10000,
   useUnifiedTopology: true,
-  // useCreateIndex: true,
+  useCreateIndex: true,
   // useFindAndModify: false,
   // autoIndex: false, // Don't build indexes
   // poolSize: 10, // Maintain up to 10 socket connections
@@ -19,6 +19,15 @@ const OPTIONS = {
   // socketTimeoutMS: 45000, // Close sockets after 45 seconds of inactivity
   // family: 4 // Use IPv4, skip trying IPv6
 }
+
+mongoose.set('toJSON', {
+  virtuals: true,
+  versionKey:false,
+  transform: (doc, converted) => {
+    delete converted._id
+    delete converted.isActive
+  },
+})
 
 const URI = `mongodb://${USERNAME}:${PASSWORD}@${HOST}:${PORT}/${DB_NAME}`
 

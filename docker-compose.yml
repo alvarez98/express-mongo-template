@@ -9,7 +9,6 @@ services:
       context: .
     volumes:
       - .:/usr/src/app
-      - /usr/src/app/node_modules
     ports:
       - ${SERVER_PORT}:${SERVER_PORT}
     command: npm run dev
@@ -20,16 +19,16 @@ services:
     image: mongo
     restart: unless-stopped
     environment:
-      MONGO_INITDB_ROOT_USERNAME: $MONGO_INITDB_ROOT_USERNAME
-      MONGO_INITDB_ROOT_PASSWORD: $MONGO_INITDB_ROOT_PASSWORD
-      MONGO_DB_USERNAME: $DB_USERNAME
-      MONGO_DB_PASSWORD: $DB_PASSWORD
-      MONGO_DB: $DB_NAME
-      MONGO_DB_COLLECTION: $DB_COLLECTION
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
+      DB_USERNAME: ${DB_USERNAME}
+      DB_PASSWORD: ${DB_PASSWORD}
+      DB_NAME: ${DB_NAME}
     ports:
       - 27017:27017
     volumes:
-      - ./src/db/mongo-init.sh:/docker-entrypoint-initdb.d/mongo-init.sh
+      - "./src/db/init/:/docker-entrypoint-initdb.d/"
+      - "./src/db/data/:/data/db"
 
   mongo-express:
     container_name: mongo_express
@@ -38,5 +37,5 @@ services:
     ports:
       - 8081:8081
     environment:
-      ME_CONFIG_MONGODB_ADMINUSERNAME: $MONGO_INITDB_ROOT_USERNAME
-      ME_CONFIG_MONGODB_ADMINPASSWORD: $MONGO_INITDB_ROOT_PASSWORD
+      ME_CONFIG_MONGODB_ADMINUSERNAME: ${MONGO_INITDB_ROOT_USERNAME}
+      ME_CONFIG_MONGODB_ADMINPASSWORD: ${MONGO_INITDB_ROOT_USERNAME}

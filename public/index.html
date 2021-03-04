@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <!-- Bootstrap CSS -->
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css"
+      integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ"
+      crossorigin="anonymous"
+    />
+    <style>
+      body {
+        margin: auto;
+        text-align: center;
+      }
+
+      .wrapper {
+        width: 520px;
+        height: 38%;
+        margin: auto;
+        margin-top: 10%;
+        /* box-sizing: content-box; */
+        background: white;
+        border: 1px solid black;
+        border-radius: 10px;
+        box-sizing: content-box;
+      }
+
+      .title,
+      div.login-btn,
+      div.signin {
+        text-align: left;
+        margin-left: 2rem;
+        margin-bottom: 1rem;
+      }
+
+      div.signin {
+        margin-top: 1rem;
+        text-align: left;
+      }
+
+      label.input {
+        display: inline;
+        font-weight: bold;
+      }
+
+      input.input {
+        width: auto;
+      }
+
+      @media screen and (max-width: 992px) {
+        .login-page {
+          width: 80%;
+          height: 50%;
+        }
+      }
+    </style>
+    <title>Belieff</title>
+  </head>
+
+  <body>
+    <div id="app">
+      <!-- login page -->
+      <div v-if="!isLogin" class="wrapper">
+            <div class="title">
+              <h2>Socket Test</h2>
+            </div>
+          <h6>El username no es importante</h6>
+          <div class="signin">
+            <label class="input">Username:</label>
+            <input
+              type="text"
+              class="form-control input"
+              v-model="username"
+              required
+            />
+          </div>
+          <div class="signin">
+            <label class="input">ID:</label>
+            <input
+              type="text"
+              class="form-control input"
+              v-model="id"
+              required
+            />
+          </div>
+          <div class="login-btn">
+            <button class="btn btn-primary" @click="login">Login</button>
+          </div>
+      </div>
+      <!-- logged in -->
+      <div v-if="isLogin" class="wrapper quiz">
+          <div>
+            <h2>Notifications Example</h2>
+          </div>
+          <div>
+              <div class="drawing-tools">
+                <div><b>Your username:</b> {{ username }}</div>
+                <div><b>Your id:</b> {{ id }}</div>
+            </div>
+
+            <!-- Notifications List -->
+            <div class="notifications">
+                  <ul>
+                    <li v-for="n in notifications">notification: {{ n }}</li>
+                  </ul>
+            </div>
+          </div>
+      </div>
+    </div>
+    <script src="https://unpkg.com/vue"></script>
+    <script
+      src="https://code.jquery.com/jquery-3.2.1.js"
+      integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE="
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.socket.io/3.1.1/socket.io.min.js"
+      integrity="sha384-gDaozqUvc4HTgo8iZjwth73C6dDDeOJsAgpxBcMpZYztUfjHXpzrpdrHRdVp8ySO"
+      crossorigin="anonymous"
+    ></script>
+
+    <script type="text/javascript">
+      new Vue({
+        el: '#app',
+        data: {
+          baseUrl: 'http://localhost:5000',
+          socket: null,
+          username: null,
+          id: null,
+          isLogin: false,
+          notifications: [],
+        },
+        methods: {
+          async login(event) {
+            // Connect
+            const socket = io(this.baseUrl, {
+              query: {
+                id: this.id,
+              },
+            })
+            socket.on('connect', () => {
+              console.log(socket.id) // x8WIv7-mJelg7on_ALbx
+            })
+            socket.on('message', (data) => {
+              console.log('message', data)
+              this.notifications.push(data)
+            })
+            socket.on('disconnect', () => {
+              console.log('disconnect', socket.id) // undefined
+            })
+            this.isLogin = true
+            this.socket = socket
+          },
+        },
+      })
+      window.app = app
+    </script>
+  </body>
+</html>

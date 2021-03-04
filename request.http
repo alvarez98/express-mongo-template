@@ -1,6 +1,29 @@
 @port = 5000
 @baseUrl = http://localhost:{{port}}/api/
 
-### GET /api/notexits
-GET {{baseUrl}}/notexits
+### POST /api/notifications
+POST {{baseUrl}}/notifications
 Content-Type: application/json
+
+{
+    "user": "1234",
+    "message": "Testeanto",
+    "subject": "Otro",
+    "date": "2021-03-01T08:15:30-05:00"
+}
+
+### GET /api/notifications/:id
+GET {{baseUrl}}/notifications/d4d21227-c970-41fe-871a-fcce5315cee8
+Content-Type: application/json
+
+### GET /api/notifications
+GET {{baseUrl}}/notifications
+Content-Type: application/json
+
+### PUT /api/notifications
+PUT {{baseUrl}}/notifications/d4d21227-c970-41fe-871a-fcce5315cee8
+Content-Type: application/json
+
+{
+    "message": "Otro mensaje"
+}

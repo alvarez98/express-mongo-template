@@ -1,9 +1,11 @@
 'use strict'
 const express = require('express')
-const api = express.Router()
+const router = express.Router()
+const notificationsRouter = require('./notifications')
 
-api.get('/', (req, res) => {
+router.use('/notifications', notificationsRouter)
+router.get('/', (req, res) => {
   res.status(200).json({ message: 'Home' })
 })
 
-module.exports = api
+module.exports = router

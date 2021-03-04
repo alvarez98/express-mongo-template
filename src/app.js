@@ -10,8 +10,8 @@ const { handleErrors, notFound } = require('./middlewares/errors')
 // Middlewares
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
-app.use(cors())
 app.use(helmet())
+app.use(cors())
 
 // Routes
 app.use('/api', api)

@@ -1,3 +1,4 @@
+const HttpError = require('../classes/httpError')
 /**
  * @function handleErrors
  * @description Middleware para manejo de errores de rutas
@@ -7,9 +8,10 @@
  * @param {Function} next - Express next middleware function
  */
 const handleErrors = (err, req, res, next) => {
-  const { code, error } = (err.error && err.error.isJoi)
-    ? { code: 400, error: err.error }
-    : { code: 500, error: 'An internal server error ocurred' }
+  console.log(err.message);
+  const { code, message: error } = err instanceof HttpError
+    ? err
+    : { code: 500, message: 'An internal server error ocurred' }
   res.status(code).send({ error })
 }
 
