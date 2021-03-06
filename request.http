@@ -6,22 +6,46 @@ POST {{baseUrl}}/notifications
 Content-Type: application/json
 
 {
-    "user": "1234",
-    "message": "Testeanto",
-    "subject": "Otro",
-    "date": "2021-03-01T08:15:30-05:00"
+    "user": "d4d21227-c970-41fe-871a-fcce5315cee7",
+    "message": "Nueva noti",
+    "subject": "Noti",
+    "date": "2021-03-04T08:15:30-05:00"
 }
 
 ### GET /api/notifications/:id
-GET {{baseUrl}}/notifications/d4d21227-c970-41fe-871a-fcce5315cee8
+GET {{baseUrl}}/notifications
 Content-Type: application/json
 
 ### GET /api/notifications
-GET {{baseUrl}}/notifications
+GET {{baseUrl}}/notifications?date=2021-03-04&date=less
 Content-Type: application/json
 
 ### PUT /api/notifications
 PUT {{baseUrl}}/notifications/d4d21227-c970-41fe-871a-fcce5315cee8
+Content-Type: application/json
+
+{
+    "message": "Otro mensaje"
+}
+################################## TAGS ################################
+### POST /api/tags
+POST {{baseUrl}}/tags
+Content-Type: application/json
+
+{
+    "name": "Social"
+}
+
+### GET /api/tags/:id
+GET {{baseUrl}}/tags?name=soc
+Content-Type: application/json
+
+### GET /api/tags
+GET {{baseUrl}}/tags
+Content-Type: application/json
+
+### PUT /api/tags
+PUT {{baseUrl}}/tags/d4d21227-c970-41fe-871a-fcce5315cee8
 Content-Type: application/json
 
 {

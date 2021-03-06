@@ -1,7 +1,7 @@
-const Joi = require('joi').extend(require('@joi/date'))
+const Joi = require('joi')
 
 const addNtfSchm = Joi.object({
-  user: Joi.string().required(),
+  user: Joi.string().uuid().required(),
   message: Joi.string().required(),
   subject: Joi.string().required(),
   date: Joi.date()
@@ -17,13 +17,18 @@ const updateNtfSchm = Joi.object({
 })
 
 const getOneNtfSchm = Joi.object({
-  id: Joi.string().required(),
+  id: Joi.string().uuid().required(),
 })
 
 const getNtfsSchm = Joi.object({
-  user: Joi.string(),
+  user: Joi.string().uuid(),
   subject: Joi.string(),
-  date: Joi.date(),
+  date: Joi.array()
+  .items(
+    Joi.date().required(),
+    Joi.string().valid('equal', 'greater', 'less').required()
+  )
+  .length(2),
   read: Joi.boolean(),
   limit: Joi.number().integer(),
   offset: Joi.number().integer(),

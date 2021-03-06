@@ -4,6 +4,7 @@ const findOne = require('../db/controllers/findOne')
 const find = require('../db/controllers/find')
 const updateOne = require('../db/controllers/updateOne')
 const models = require('../db/keys')
+const buildNtfsFilters = require('../db/controllers/filters/buildNtfsFilters')
 
 /**
  * @function addNotification
@@ -31,8 +32,8 @@ const addNotification = async ({ body }, res, next) => {
 
 const getNotifications = async ({ query }, res, next) => {
   try {
-    const { limit = 20, orderBy = 'user', offset = 0, ...filters } = query
-    filters.isActive = true
+    let { limit = 20, orderBy = 'user', offset = 0, ...filters } = query
+    filters = buildNtfsFilters(filters)
     const ntfcs = await find(
       models.NOTIFICATION,
       filters,
