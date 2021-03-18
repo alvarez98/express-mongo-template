@@ -1,27 +1,20 @@
 const Joi = require('joi')
 
-const addNtfSchm = Joi.object({
-  user: Joi.string().uuid().required(),
-  message: Joi.string().required(),
-  subject: Joi.string().required(),
-  date: Joi.date()
-    .iso()
-    .max(new Date())
-    .required(),
-})
+const addConnSchm = Joi.object({
+  user: Joi.string().uuid().required()
+}).unknown(true)
 
-const updateNtfSchm = Joi.object({
+const updateConnSchm = Joi.object({
   message: Joi.string(),
   subject: Joi.string(),
   date: Joi.date().max(new Date()),
-  read: Joi.boolean()
 })
 
-const getOneNtfSchm = Joi.object({
+const getOneConnSchm = Joi.object({
   id: Joi.string().uuid().required(),
 })
 
-const getNtfsSchm = Joi.object({
+const getConnsSchm = Joi.object({
   user: Joi.string().uuid(),
   subject: Joi.string(),
   date: Joi.array()
@@ -37,8 +30,8 @@ const getNtfsSchm = Joi.object({
 })
 
 module.exports = {
-  addNtfSchm,
-  updateNtfSchm,
-  getOneNtfSchm,
-  getNtfsSchm,
+  addConnSchm,
+  updateConnSchm,
+  getOneConnSchm,
+  getConnsSchm,
 }

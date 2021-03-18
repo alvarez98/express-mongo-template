@@ -1,5 +1,5 @@
 module.exports = {
-    Connection: require('./conections'),
+    Connection: require('./connections'),
     Notification: require('./notifications'),
     Tag: require('./tags'),
 }

@@ -75,7 +75,7 @@ const getOneTag = async ({ params }, res, next) => {
 
 const updateTag = async ({ params, body }, res, next) => {
   try {
-    await updateOne(models.TAG, params.id, body)
+    await updateOne(models.TAG, { _id: params.id }, body)
     res.status(200).json({ id: params.id, message: 'Updated' })
   } catch (error) {
     next(error)
@@ -92,7 +92,7 @@ const updateTag = async ({ params, body }, res, next) => {
 
 const deleteTag = async ({ params }, res, next) => {
   try {
-    await updateOne(models.TAG, params.id, { isActive: false })
+    await updateOne(models.TAG, { _id: params.id }, { isActive: false })
     res.status(200).json({ id: params.id, message: 'Deleted' })
   } catch (error) {
     next(error)

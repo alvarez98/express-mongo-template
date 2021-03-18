@@ -13,7 +13,6 @@ const getTagSchm = Joi.object({
 })
 
 const getTagsSchm = Joi.object({
-  id: Joi.string().uuid(),
   name: Joi.string(),
   limit: Joi.number().integer(),
   offset: Joi.number().integer(),

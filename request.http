@@ -6,7 +6,7 @@ POST {{baseUrl}}/notifications
 Content-Type: application/json
 
 {
-    "user": "d4d21227-c970-41fe-871a-fcce5315cee7",
+    "user": "6bdf63e7-14e5-40ff-955d-1ea1bf054a02",
     "message": "Nueva noti",
     "subject": "Noti",
     "date": "2021-03-04T08:15:30-05:00"
@@ -21,11 +21,11 @@ GET {{baseUrl}}/notifications?date=2021-03-04&date=less
 Content-Type: application/json
 
 ### PUT /api/notifications
-PUT {{baseUrl}}/notifications/d4d21227-c970-41fe-871a-fcce5315cee8
+PUT {{baseUrl}}/notifications/58972195-a5b9-4767-8e19-79e2f219c971
 Content-Type: application/json
 
 {
-    "message": "Otro mensaje"
+    "read": true
 }
 ################################## TAGS ################################
 ### POST /api/tags
@@ -49,5 +49,5 @@ PUT {{baseUrl}}/tags/d4d21227-c970-41fe-871a-fcce5315cee8
 Content-Type: application/json
 
 {
-    "message": "Otro mensaje"
+    "name": "Name"
 }

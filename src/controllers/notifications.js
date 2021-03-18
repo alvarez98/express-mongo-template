@@ -15,6 +15,8 @@ const buildNtfsFilters = require('../db/controllers/filters/buildNtfsFilters')
  */
 const addNotification = async ({ body }, res, next) => {
   try {
+    const client = await findOne(models.CONNECTION, { client: body.user, isConnected: true })
+    if (client) global.io.to(client.socket).emit('notification', JSON.stringify(body))
     const notification = await add(models.NOTIFICATION, body)
     res.status(201).json({ id: notification.id, message: 'Created' })
   } catch (error) {
@@ -75,7 +77,7 @@ const getOneNotification = async ({ params }, res, next) => {
 
 const updateNotification = async ({ params, body }, res, next) => {
   try {
-    await updateOne(models.NOTIFICATION, params.id, body)
+    await updateOne(models.NOTIFICATION, { _id: params.id }, body)
     res.status(200).json({ id: params.id, message: 'Updated' })
   } catch (error) {
     next(error)
@@ -92,7 +94,7 @@ const updateNotification = async ({ params, body }, res, next) => {
 
 const deleteNotification = async ({ params }, res, next) => {
   try {
-    await updateOne(models.NOTIFICATION, params.id, { isActive: false })
+    await updateOne(models.NOTIFICATION, { _id: params.id }, { isActive: false })
     res.status(200).json({ id: params.id, message: 'Deleted' })
   } catch (error) {
     next(error)

@@ -1,5 +1,5 @@
 const Models = require('../models')
 
-const updateOne = (model, id, data) => Models[model].updateOne({ id }, data)
+const updateOne = (model, filter, data) => Models[model].updateOne(filter, data)
 
 module.exports = updateOne
