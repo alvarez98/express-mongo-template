@@ -7,21 +7,22 @@ const onConnection = async (socket) => {
   try {
     const client = socket.handshake.query.user
     const clientExist = await findOne(models.CONNECTION, {
-      client,
+      client
     })
-    if (clientExist)
-      await updateOne(models.CONNECTION, { _id: clientExist.id}, {
+    if (clientExist) {
+      await updateOne(models.CONNECTION, { _id: clientExist.id }, {
         socket: socket.id,
-        isConnected: true,
+        isConnected: true
       })
-    else
+    } else {
       await add(models.CONNECTION, {
         client,
-        socket: socket.id,
+        socket: socket.id
       })
+    }
     socket.once('disconnect', async () => {
       await updateOne(models.CONNECTION, { socket: socket.id }, {
-        isConnected: false,
+        isConnected: false
       }).catch(err => console.log(err))
     })
   } catch (error) {

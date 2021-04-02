@@ -7,22 +7,22 @@ const addConnSchm = Joi.object({
 const updateConnSchm = Joi.object({
   message: Joi.string(),
   subject: Joi.string(),
-  date: Joi.date().max(new Date()),
+  date: Joi.date().max(new Date())
 })
 
 const getOneConnSchm = Joi.object({
-  id: Joi.string().uuid().required(),
+  _id: Joi.string().uuid().required()
 })
 
 const getConnsSchm = Joi.object({
   user: Joi.string().uuid(),
   subject: Joi.string(),
   date: Joi.array()
-  .items(
-    Joi.date().required(),
-    Joi.string().valid('equal', 'greater', 'less').required()
-  )
-  .length(2),
+    .items(
+      Joi.date().required(),
+      Joi.string().valid('equal', 'greater', 'less').required()
+    )
+    .length(2),
   read: Joi.boolean(),
   limit: Joi.number().integer(),
   offset: Joi.number().integer(),
@@ -33,5 +33,5 @@ module.exports = {
   addConnSchm,
   updateConnSchm,
   getOneConnSchm,
-  getConnsSchm,
+  getConnsSchm
 }

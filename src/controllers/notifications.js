@@ -106,5 +106,5 @@ module.exports = {
   getNotifications,
   getOneNotification,
   updateNotification,
-  deleteNotification,
+  deleteNotification
 }

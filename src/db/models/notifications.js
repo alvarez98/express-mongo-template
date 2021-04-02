@@ -1,5 +1,6 @@
 const mongoose = require('mongoose')
 const { v4: uuidv4 } = require('uuid')
+const models = require('../keys')
 
 const notificationSchema = new mongoose.Schema({
   _id: { type: String, default: uuidv4 },
@@ -11,4 +12,4 @@ const notificationSchema = new mongoose.Schema({
   isActive: { type: Boolean, default: true }
 }, { _id: false })
 
-module.exports = mongoose.model('Notification', notificationSchema)
+module.exports = mongoose.model(models.NOTIFICATION, notificationSchema)

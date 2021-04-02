@@ -58,7 +58,7 @@ const getTags = async ({ query }, res, next) => {
 const getOneTag = async ({ params }, res, next) => {
   try {
     const tag = await findOne(models.TAG, params)
-    if (!tag) throw new HttpError(404, 'Tag not found')
+    if (!tag) throw new HttpError(400, 'Tag not exist')
     res.status(200).json({ data: tag, message: 'Success' })
   } catch (error) {
     next(error)
@@ -104,5 +104,5 @@ module.exports = {
   getTags,
   getOneTag,
   updateTag,
-  deleteTag,
+  deleteTag
 }

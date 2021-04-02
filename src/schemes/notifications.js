@@ -7,7 +7,7 @@ const addNtfSchm = Joi.object({
   date: Joi.date()
     .iso()
     .max(new Date())
-    .required(),
+    .required()
 })
 
 const updateNtfSchm = Joi.object({
@@ -18,18 +18,18 @@ const updateNtfSchm = Joi.object({
 })
 
 const getOneNtfSchm = Joi.object({
-  id: Joi.string().uuid().required(),
+  _id: Joi.string().uuid().required()
 })
 
 const getNtfsSchm = Joi.object({
   user: Joi.string().uuid(),
   subject: Joi.string(),
   date: Joi.array()
-  .items(
-    Joi.date().required(),
-    Joi.string().valid('equal', 'greater', 'less').required()
-  )
-  .length(2),
+    .items(
+      Joi.date().required(),
+      Joi.string().valid('equal', 'greater', 'less').required()
+    )
+    .length(2),
   read: Joi.boolean(),
   limit: Joi.number().integer(),
   offset: Joi.number().integer(),
@@ -40,5 +40,5 @@ module.exports = {
   addNtfSchm,
   updateNtfSchm,
   getOneNtfSchm,
-  getNtfsSchm,
+  getNtfsSchm
 }

@@ -1,5 +1,5 @@
 const Models = require('../models')
 
-const add = (model, data) => Models[model].create(data)
+const add = (model) => Models[model].deleteMany()
 
 module.exports = add

@@ -5,11 +5,11 @@ const addTagSchm = Joi.object({
 })
 
 const updateTagSchm = Joi.object({
-  name: Joi.string().required(),
+  name: Joi.string().required()
 })
 
-const getTagSchm = Joi.object({
-  id: Joi.string().uuid().required(),
+const getOneTagSchm = Joi.object({
+  _id: Joi.string().uuid().required()
 })
 
 const getTagsSchm = Joi.object({
@@ -22,6 +22,6 @@ const getTagsSchm = Joi.object({
 module.exports = {
   addTagSchm,
   updateTagSchm,
-  getTagSchm,
-  getTagsSchm,
+  getOneTagSchm,
+  getTagsSchm
 }

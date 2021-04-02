@@ -28,9 +28,18 @@
     "standard": "^16.0.3"
   },
   "scripts": {
-    "test": "jest",
+    "test": "jest --detectOpenHandles ",
     "dev": "nodemon ./src/server.js",
     "lint": "standard --fix"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "coveragePathIgnorePatterns": [
+      "/node_modules/"
+    ]
+  },
+  "standard": {
+    "env": [ "jest" ]
   },
   "keywords": [],
   "author": "Adolfo Esteban Alvarez Pacheco",

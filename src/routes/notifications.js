@@ -6,22 +6,22 @@ const {
   getNotifications,
   getOneNotification,
   updateNotification,
-  deleteNotification,
+  deleteNotification
 } = require('../controllers/notifications')
 const {
   addNtfSchm,
   getOneNtfSchm,
   getNtfsSchm,
-  updateNtfSchm,
+  updateNtfSchm
 } = require('../schemes/notifications')
 const validate = require('../middlewares/validate')
 
 router.post('/', validate(addNtfSchm, 'body'), addNotification)
 router.get('/', validate(getNtfsSchm, 'query'), getNotifications)
-router.get('/:id', validate(getOneNtfSchm, 'params'), getOneNotification)
-router.delete('/:id', validate(getOneNtfSchm, 'params'), deleteNotification)
+router.get('/:_id', validate(getOneNtfSchm, 'params'), getOneNotification)
+router.delete('/:_id', validate(getOneNtfSchm, 'params'), deleteNotification)
 router.put(
-  '/:id',
+  '/:_id',
   validate(getOneNtfSchm, 'params'),
   validate(updateNtfSchm, 'body'),
   updateNotification

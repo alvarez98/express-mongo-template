@@ -11,7 +11,7 @@ services:
       - .:/usr/src/app
     ports:
       - ${SERVER_PORT}:${SERVER_PORT}
-    command: npm run dev
+    command: ${DOCKER_COMMAND}
     depends_on: 
       - mongo
   mongo:
@@ -28,7 +28,6 @@ services:
       - 27017:27017
     volumes:
       - "./src/db/init/:/docker-entrypoint-initdb.d/"
-      - "./src/db/data/:/data/db"
 
   mongo-express:
     container_name: mongo_express
