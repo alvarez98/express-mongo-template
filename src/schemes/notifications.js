@@ -6,14 +6,14 @@ const addNtfSchm = Joi.object({
   subject: Joi.string().required(),
   date: Joi.date()
     .iso()
-    .max(new Date())
+    .max(new Date().getTime() + 1000)
     .required()
 })
 
 const updateNtfSchm = Joi.object({
   message: Joi.string(),
   subject: Joi.string(),
-  date: Joi.date().max(new Date()),
+  date: Joi.date().max(new Date().getTime() + 1000),
   read: Joi.boolean()
 })
 
