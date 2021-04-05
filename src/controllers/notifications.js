@@ -60,7 +60,7 @@ const getNotifications = async ({ query }, res, next) => {
 const getOneNotification = async ({ params }, res, next) => {
   try {
     const notification = await findOne(models.NOTIFICATION, params)
-    if (!notification) throw new HttpError(404, 'Notification not found')
+    if (!notification) throw new HttpError(400, 'Notification not found')
     res.status(200).json({ data: notification, message: 'Success' })
   } catch (error) {
     next(error)
