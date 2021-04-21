@@ -20,7 +20,7 @@ Instructions for configuration and deployment this project
 - Init your database and server with:
 
 ```sh
-$ docker-compose up --build
+$ docker-compose up -d
 ```
 
 - To start to mongo express interface just navigate to localhost on port 8081
