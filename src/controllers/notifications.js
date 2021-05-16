@@ -4,7 +4,7 @@ const findOne = require('../db/controllers/findOne')
 const find = require('../db/controllers/find')
 const updateOne = require('../db/controllers/updateOne')
 const models = require('../db/keys')
-const buildNtfsFilters = require('../db/controllers/filters/buildNtfsFilters')
+const { buildNtfsFilters } = require('../db/controllers/buildFilters')
 
 /**
  * @function addNotification
@@ -15,8 +15,11 @@ const buildNtfsFilters = require('../db/controllers/filters/buildNtfsFilters')
  */
 const addNotification = async ({ body }, res, next) => {
   try {
-    const client = await findOne(models.CONNECTION, { client: body.user, isConnected: true })
-    if (client) global.io.to(client.socket).emit('notification', JSON.stringify(body))
+    const client = await findOne(models.CONNECTION, {
+      client: body.user,
+      isConnected: true
+    })
+    if (client) { global.io.to(client.socket).emit('notification', JSON.stringify(body)) }
     const notification = await add(models.NOTIFICATION, body)
     res.status(201).json({ id: notification.id, message: 'Created' })
   } catch (error) {
@@ -77,8 +80,10 @@ const getOneNotification = async ({ params }, res, next) => {
 
 const updateNotification = async ({ params, body }, res, next) => {
   try {
-    await updateOne(models.NOTIFICATION, { _id: params.id }, body)
-    res.status(200).json({ id: params.id, message: 'Updated' })
+    const result = await updateOne(models.NOTIFICATION, params, body)
+    res
+      .status(200)
+      .json({ id: params._id, message: 'Updated', changes: result.nModified })
   } catch (error) {
     next(error)
   }
@@ -94,8 +99,13 @@ const updateNotification = async ({ params, body }, res, next) => {
 
 const deleteNotification = async ({ params }, res, next) => {
   try {
-    await updateOne(models.NOTIFICATION, { _id: params.id }, { isActive: false })
-    res.status(200).json({ id: params.id, message: 'Deleted' })
+    const resp = await updateOne(
+      models.NOTIFICATION,
+      { ...params, isActive: true },
+      { isActive: false }
+    )
+    if (!resp.nModified) { throw new HttpError(400, `Notification ${params._id} not exist`) }
+    res.status(200).json({ id: params._id, message: 'Deleted' })
   } catch (error) {
     next(error)
   }

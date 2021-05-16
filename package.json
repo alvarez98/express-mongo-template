@@ -7,7 +7,7 @@
     "test": "test"
   },
   "dependencies": {
-    "@joi/date": "^2.0.1",
+    "@joi/date": "^2.1.0",
     "bcrypt": "^5.0.0",
     "body-parser": "^1.19.0",
     "cors": "^2.8.5",
@@ -29,7 +29,7 @@
   },
   "scripts": {
     "test": "jest --detectOpenHandles ",
-    "dev": "nodemon ./src/server.js",
+    "start": "nodemon ./src/server.js",
     "lint": "standard --fix"
   },
   "jest": {
@@ -39,7 +39,9 @@
     ]
   },
   "standard": {
-    "env": [ "jest" ]
+    "env": [
+      "jest"
+    ]
   },
   "keywords": [],
   "author": "Adolfo Esteban Alvarez Pacheco",

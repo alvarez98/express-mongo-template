@@ -21,7 +21,7 @@ describe('POST /notifications', () => {
       user: '6bdf63e7-14e5-40ff-955d-1ea1bf054a02',
       message: 'Success',
       subject: 'Sign in',
-      date: '2021-04-03T17:22:45-06:00',
+      date: '2021-04-03T17:22:45-06:00'
     })
     expect(response.statusCode).toBe(201)
     notificationId = response.body.id
@@ -32,7 +32,7 @@ describe('POST /notifications', () => {
       user: '6bdf63e7-14e5-40ff-955d-1ea1bf054a02',
       invalidProperty: 'Error',
       subject: 'Sign in',
-      date: '2021-04-03T17:22:45-06:00',
+      date: '2021-04-03T17:22:45-06:00'
     })
     expect(response.statusCode).toBe(400)
     done()
@@ -85,7 +85,7 @@ describe('PUT /notifications/:_id', () => {
     const response = await request(app)
       .put(`/api/notifications/${notificationId}`)
       .send({
-        message: 'Successful',
+        message: 'Successful'
       })
     //   .set('Authorization', `Token ${TOKEN}`)
     expect(response.statusCode).toBe(200)
@@ -95,7 +95,7 @@ describe('PUT /notifications/:_id', () => {
     const response = await request(app)
       .put('/api/notifications/995f46e9-f2cc-4c8e-9e1e-db5aec60c073')
       .send({
-        name: 'Nuevo nombre',
+        name: 'Nuevo nombre'
       })
     //   .set('Authorization', `Token ${TOKEN}`)
     expect(response.statusCode).toBe(400)
@@ -105,7 +105,7 @@ describe('PUT /notifications/:_id', () => {
     const response = await request(app)
       .put(`/api/notifications/${notificationId}`)
       .send({
-        badProperty: 'Nuevo nombre',
+        badProperty: 'Nuevo nombre'
       })
     //   .set('Authorization', `Token ${TOKEN}`)
     expect(response.statusCode).toBe(400)

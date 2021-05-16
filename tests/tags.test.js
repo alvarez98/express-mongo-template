@@ -18,7 +18,7 @@ beforeAll(async () => {
 describe('POST /tags', () => {
   test('It should create a new Tag', async (done) => {
     const response = await request(app).post('/api/tags').send({
-      name: 'Social',
+      name: 'Social'
     })
     expect(response.statusCode).toBe(201)
     tagId = response.body.id
@@ -26,7 +26,7 @@ describe('POST /tags', () => {
   })
   test("You shouldn't create a new tag for invalid body", async (done) => {
     const response = await request(app).post('/api/tags').send({
-      other: 'Value',
+      other: 'Value'
     })
     expect(response.statusCode).toBe(400)
     done()
@@ -73,7 +73,7 @@ describe('GET /tags/:id', () => {
 describe('PUT /tags/:id', () => {
   test('You must update a tag', async (done) => {
     const response = await request(app).put(`/api/tags/${tagId}`).send({
-      name: 'Nuevo nombre',
+      name: 'Nuevo nombre'
     })
     //   .set('Authorization', `Token ${TOKEN}`)
     expect(response.statusCode).toBe(200)
@@ -83,7 +83,7 @@ describe('PUT /tags/:id', () => {
     const response = await request(app)
       .put('/api/tags/995f46e9-f2cc-4c8e-9e1e-db5aec60c073')
       .send({
-        name: 'Nuevo nombre',
+        name: 'Nuevo nombre'
       })
     //   .set('Authorization', `Token ${TOKEN}`)
     expect(response.statusCode).toBe(400)
@@ -91,7 +91,7 @@ describe('PUT /tags/:id', () => {
   })
   test('It should return error for invalid body', async (done) => {
     const response = await request(app).put(`/api/tags/${tagId}`).send({
-      badProperty: 'Nuevo nombre',
+      badProperty: 'Nuevo nombre'
     })
     //   .set('Authorization', `Token ${TOKEN}`)
     expect(response.statusCode).toBe(400)
