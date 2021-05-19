@@ -1,5 +1,5 @@
 module.exports = {
-  SERVER_PORT: 'SERVER_PORT',
+  PORT: 'PORT',
   DB_HOST: 'DB_HOST',
   DB_USERNAME: 'DB_USERNAME',
   DB_PASSWORD: 'DB_PASSWORD',

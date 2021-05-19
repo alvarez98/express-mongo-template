@@ -4,7 +4,7 @@ const connection = require('./db/config')
 const { Configuration, Keys } = require('./config')
 const validateConnection = require('./socket/middlewares/validateConnection')
 const onConnection = require('./socket/events/onConnection')
-const PORT = Configuration.get(Keys.SERVER_PORT) || 5000
+const PORT = Configuration.get(Keys.PORT) || 5000
 
 // Start server
 const server = app.listen(PORT, () => {
