@@ -6,5 +6,4 @@ module.exports = {
   DB_NAME: 'DB_NAME',
   DB_PORT: 'DB_PORT',
   JWT_SECRET: 'JWT_SECRET',
-  BCRYPT_HASH_ROUND: 'BCRYPT_HASH_ROUND'
 }

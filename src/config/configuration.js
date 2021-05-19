@@ -1,23 +1,24 @@
 const fs = require('fs')
-const { parse } = require('dotenv')
-
+const path = require('path')
+const keys = require('./keys')
 class Configuration {
-  envConfig = {}
   constructor() {
     if (Configuration.instance) return Configuration.instance
-    const { NODE_ENV } = process.env
-    let envFileVersion = '.env'
-    if (NODE_ENV === 'production') envFileVersion += '.production'
-    else if (NODE_ENV === 'test') envFileVersion += '.test'
-
-    const envFilePath = `${__dirname}/../../${envFileVersion}`
-    const existsPath = fs.existsSync(envFilePath)
-    if (!existsPath) {
-      console.error(`${envFileVersion} file not exists`)
-      process.exit(0)
+    this.envConfig = {}
+    const { NODE_ENV = 'development' } = process.env
+    let envFileVersion = NODE_ENV === 'test' ? '.env.test' : '.env'
+    if (NODE_ENV && NODE_ENV !== 'production') {
+      const envFilePath = path.join(__dirname, `../../${envFileVersion}`)
+      const existsPath = fs.existsSync(envFilePath)
+      if (!existsPath) {
+        console.error(`${envFileVersion} file not exists`)
+        process.exit(0)
+      }
+      require('dotenv').config({ path: envFilePath })
     }
-    const file = fs.readFileSync(envFilePath)
-    this.envConfig = parse(file)
+    Object.values(keys).forEach((value) => {
+      this.envConfig[value] = process.env[value]
+    })
     Configuration.instance = this
   }
 

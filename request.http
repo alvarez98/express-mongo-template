@@ -1,29 +1,191 @@
 @port = 5000
 @baseUrl = http://localhost:{{port}}/api/
+// https://git.heroku.com/bulk-data-api.git/api
+################################## QUESTIONARIES ################################
+### POST /api/questionaries
+POST {{baseUrl}}/questionaries
+Content-Type: application/json
 
+{
+    "questionaryName": "Social",
+    "questionaryDescription": "TEST",
+    "questionaryAudicence": "TEST",
+    "questionarySections": [
+        "92ec9ea9-f6af-4cf7-b2d1-acf4af6aa85d"
+    ]
+}
+
+### GET /api/questionaries/:id
+GET {{baseUrl}}/questionaries/7d283f60-d6b1-4155-af4f-550d4eeda9ec
+Content-Type: application/json
+
+### GET /api/questionaries
+GET {{baseUrl}}/questionaries
+Content-Type: application/json
+
+### PUT /api/questionaries
+PUT {{baseUrl}}/questionaries/c62c084a-dfc9-4f44-abee-85eadadcf922
+Content-Type: application/json
+
+{
+    "questionaryName": "Socio-Economico",
+    "questionarySections": [
+        "eed79572-2ebb-4fba-bf03-b4fd197d944b"
+    ]
+}
+
+### DELETE /api/questionaries/:id
+DELETE {{baseUrl}}/questionaries/7d283f60-d6b1-4155-af4f-550d4eeda9ec
+Content-Type: application/json
+
+
+################################## SECTIONS ################################
+### POST /api/sections
+POST {{baseUrl}}/sections
+Content-Type: application/json
+
+{
+    "sectionName": "Social",
+    "sectionDescription": "TEST",
+    "sectionQuestions": ["6f6fd439-ca23-41af-8f2e-0679cf2f108b"]
+}
+
+### GET /api/sections/:id
+GET {{baseUrl}}/sections/68b9c879-feb5-4b33-84c4-3ca5144cfa30
+Content-Type: application/json
+
+### GET /api/sections
+GET {{baseUrl}}/sections
+Content-Type: application/json
+
+### PUT /api/sections
+PUT {{baseUrl}}/sections/68b9c879-feb5-4b33-84c4-3ca5144cfa30
+Content-Type: application/json
+
+{
+    "sectionName": "Socio-Economico"
+}
+
+### DELETE /api/sections/:id
+DELETE {{baseUrl}}/sections/68b9c879-feb5-4b33-84c4-3ca5144cfa30
+Content-Type: application/json
+
+################################## QUESTIONS ################################
+### POST /api/sections
+POST {{baseUrl}}/questions
+Content-Type: application/json
+
+{
+    "question": "Pregunta 1",
+    "questionType": "MultipleOption",
+    "questionOptions": ["1", "2", "3"]
+}
+
+### GET /api/questions/:id
+GET {{baseUrl}}/questions/27d20a2b-106b-4b9d-b815-56dfc8e2b3c5
+Content-Type: application/json
+
+### GET /api/questions
+GET {{baseUrl}}/questions
+Content-Type: application/json
+
+### PUT /api/questions
+PUT {{baseUrl}}/questions/68b9c879-feb5-4b33-84c4-3ca5144cfa30
+Content-Type: application/json
+
+{
+    "sectionName": "Socio-Economico"
+}
+
+### DELETE /api/questions/:id
+DELETE {{baseUrl}}/questions/68b9c879-feb5-4b33-84c4-3ca5144cfa30
+Content-Type: application/json
+
+
+################################## ANSWERS ################################
+### POST /api/answers
+POST {{baseUrl}}/answers
+Content-Type: application/json
+
+{
+    "questionaryId": "55e12f84-9d8a-4e6a-810e-b40c0bec8737",
+    "sectionId": "92ec9ea9-f6af-4cf7-b2d1-acf4af6aa85d",
+    "studentId": "32468ba5-4c52-4a75-bb2f-e649287da878",
+    "answers": [
+    {
+        "questionId": "6f6fd439-ca23-41af-8f2e-0679cf2f108b",
+        "questionAnswer": "3"
+    }]
+}
+
+### GET /api/answers/:id
+GET {{baseUrl}}/answers/27d20a2b-106b-4b9d-b815-56dfc8e2b3c5
+Content-Type: application/json
+
+### GET /api/answers
+GET {{baseUrl}}/answers
+Content-Type: application/json
+
+### PUT /api/answers
+PUT {{baseUrl}}/answers/68b9c879-feb5-4b33-84c4-3ca5144cfa30
+Content-Type: application/json
+
+{
+    "sectionName": "Socio-Economico"
+}
+
+### DELETE /api/answers/:id
+DELETE {{baseUrl}}/answers/68b9c879-feb5-4b33-84c4-3ca5144cfa30
+Content-Type: application/json
+
+################################ NOTIFICATIONS ######################################
 ### POST /api/notifications
 POST {{baseUrl}}/notifications
 Content-Type: application/json
 
 {
-    "user": "1234",
-    "message": "Testeanto",
-    "subject": "Otro",
-    "date": "2021-03-01T08:15:30-05:00"
+    "user": "6bdf63e7-14e5-40ff-955d-1ea1bf054a02",
+    "message": "Nueva noti",
+    "subject": "Noti",
+    "date": "2021-03-04T08:15:30-05:00"
 }
 
 ### GET /api/notifications/:id
-GET {{baseUrl}}/notifications/d4d21227-c970-41fe-871a-fcce5315cee8
-Content-Type: application/json
-
-### GET /api/notifications
 GET {{baseUrl}}/notifications
 Content-Type: application/json
 
+### GET /api/notifications
+GET {{baseUrl}}/notifications?date=2021-03-04&date=less
+Content-Type: application/json
+
 ### PUT /api/notifications
-PUT {{baseUrl}}/notifications/d4d21227-c970-41fe-871a-fcce5315cee8
+PUT {{baseUrl}}/notifications/58972195-a5b9-4767-8e19-79e2f219c971
 Content-Type: application/json
 
 {
-    "message": "Otro mensaje"
+    "read": true
+}
+################################## TAGS ################################
+### POST /api/tags
+POST {{baseUrl}}/tags
+Content-Type: application/json
+
+{
+    "name": "Social"
+}
+
+### GET /api/tags/:id
+GET {{baseUrl}}/tags?name=soc
+Content-Type: application/json
+
+### GET /api/tags
+GET {{baseUrl}}/tags/7660a509-f61c-4655-8547-93f2d08af120
+Content-Type: application/json
+
+### PUT /api/tags
+PUT {{baseUrl}}/tags/7660a509-f61c-4655-8547-93f2d08af120
+Content-Type: application/json
+
+{
+    "name": "Name"
 }

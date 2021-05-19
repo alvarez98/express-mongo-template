@@ -5,6 +5,8 @@ const USERNAME = Configuration.get(Keys.DB_USERNAME)
 const PASSWORD = Configuration.get(Keys.DB_PASSWORD)
 const HOST = Configuration.get(Keys.DB_HOST)
 const PORT = Configuration.get(Keys.DB_PORT)
+  ? `:${Configuration.get(Keys.DB_PORT)}`
+  : ''
 const DB_NAME = Configuration.get(Keys.DB_NAME)
 
 const OPTIONS = {
@@ -22,13 +24,15 @@ const OPTIONS = {
 
 mongoose.set('toJSON', {
   virtuals: true,
-  versionKey:false,
+  versionKey: false,
   transform: (doc, converted) => {
+    converted.id = converted._id
     delete converted._id
     delete converted.isActive
   },
 })
 
-const URI = `mongodb://${USERNAME}:${PASSWORD}@${HOST}:${PORT}/${DB_NAME}`
+const URI = `mongodb+srv://${USERNAME}:${PASSWORD}@${HOST}${PORT}/${DB_NAME}`
 
+console.log(URI);
 module.exports = () => mongoose.connect(URI, OPTIONS)

@@ -4,6 +4,7 @@ const findOne = require('../db/controllers/findOne')
 const find = require('../db/controllers/find')
 const updateOne = require('../db/controllers/updateOne')
 const models = require('../db/keys')
+const { buildNtfsFilters } = require('../db/controllers/buildFilters')
 
 /**
  * @function addNotification
@@ -14,6 +15,11 @@ const models = require('../db/keys')
  */
 const addNotification = async ({ body }, res, next) => {
   try {
+    const client = await findOne(models.CONNECTION, {
+      client: body.user,
+      isConnected: true
+    })
+    if (client) { global.io.to(client.socket).emit('notification', JSON.stringify(body)) }
     const notification = await add(models.NOTIFICATION, body)
     res.status(201).json({ id: notification.id, message: 'Created' })
   } catch (error) {
@@ -31,8 +37,8 @@ const addNotification = async ({ body }, res, next) => {
 
 const getNotifications = async ({ query }, res, next) => {
   try {
-    const { limit = 20, orderBy = 'user', offset = 0, ...filters } = query
-    filters.isActive = true
+    let { limit = 20, orderBy = 'user', offset = 0, ...filters } = query
+    filters = buildNtfsFilters(filters)
     const ntfcs = await find(
       models.NOTIFICATION,
       filters,
@@ -57,7 +63,7 @@ const getNotifications = async ({ query }, res, next) => {
 const getOneNotification = async ({ params }, res, next) => {
   try {
     const notification = await findOne(models.NOTIFICATION, params)
-    if (!notification) throw new HttpError(404, 'Notification not found')
+    if (!notification) throw new HttpError(400, 'Notification not found')
     res.status(200).json({ data: notification, message: 'Success' })
   } catch (error) {
     next(error)
@@ -74,8 +80,10 @@ const getOneNotification = async ({ params }, res, next) => {
 
 const updateNotification = async ({ params, body }, res, next) => {
   try {
-    await updateOne(models.NOTIFICATION, params.id, body)
-    res.status(200).json({ id: params.id, message: 'Updated' })
+    const result = await updateOne(models.NOTIFICATION, params, body)
+    res
+      .status(200)
+      .json({ id: params._id, message: 'Updated', changes: result.nModified })
   } catch (error) {
     next(error)
   }
@@ -91,8 +99,13 @@ const updateNotification = async ({ params, body }, res, next) => {
 
 const deleteNotification = async ({ params }, res, next) => {
   try {
-    await updateOne(models.NOTIFICATION, params.id, { isActive: false })
-    res.status(200).json({ id: params.id, message: 'Deleted' })
+    const resp = await updateOne(
+      models.NOTIFICATION,
+      { ...params, isActive: true },
+      { isActive: false }
+    )
+    if (!resp.nModified) { throw new HttpError(400, `Notification ${params._id} not exist`) }
+    res.status(200).json({ id: params._id, message: 'Deleted' })
   } catch (error) {
     next(error)
   }
@@ -103,5 +116,5 @@ module.exports = {
   getNotifications,
   getOneNotification,
   updateNotification,
-  deleteNotification,
+  deleteNotification
 }

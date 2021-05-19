@@ -1,59 +1,51 @@
 const Joi = require('joi')
 
 const addTagSchm = Joi.object({
-  sk: Joi.string()
-    .regex(/^profile-[0-9]+-[0-9]+$/)
-    .required()
-    .messages({
-      'string.base': `"sk" should be a type of 'text'`,
-      'string.empty': `"sk" cannot be an empty field`,
-      'string.pattern.base': `Invalid profile id`,
-      'any.required': `"sk" is a required field`,
-    }),
-  company_name: Joi.string().required(),
-  name: Joi.string().required(),
-  date_start: Joi.string().required(),
-  date_end: Joi.date().min(Joi.ref('date_start')),
-  country: Joi.string().required(),
-  state: Joi.string().required(),
-  subarea_name: Joi.string().required(),
-  area_name: Joi.string().required(),
-  activities: Joi.array().items(Joi.string()).required(),
+  name: Joi.string().required().messages({
+    'string.base': 'El nombre de la etiqueta debe ser un texto',
+    'string.empty': 'El nombre de la etiqueta no debe ser un texto vacío',
+    'any.required': 'El nombre de la etiqueta es un campo requerido'
+  })
 })
 
 const updateTagSchm = Joi.object({
-  company_name: Joi.string(),
-  name: Joi.string(),
-  date_start: Joi.string(),
-  date_end: Joi.date().min(Joi.ref('date_start')),
-  country: Joi.string(),
-  state: Joi.string(),
-  subarea_name: Joi.string(),
-  area_name: Joi.string(),
-  activities: Joi.array().items(Joi.string()),
+  name: Joi.string().required().messages({
+    'string.base': 'El nombre de la etiqueta debe ser un texto',
+    'string.empty': 'El nombre de la etiqueta no debe ser un texto vacío'
+  })
 })
 
-const getTagSchm = Joi.object({
-  id: Joi.string().required(),
+const getOneTagSchm = Joi.object({
+  _id: Joi.string().uuid().required().messages({
+    'string.base': 'El id debe ser un texto',
+    'string.empty': 'El id no debe ser un texto vacío',
+    'string.guid': 'El id debe ser un UUID válido',
+    'any.required': 'El id es un campo requerido'
+  })
 })
 
 const getTagsSchm = Joi.object({
-  id: Joi.string(),
-  company_name: Joi.string(),
-  name: Joi.string(),
-  sk: Joi.string()
-    .regex(/^profile-[0-9]+-[0-9]+$/)
-    .messages({
-      'string.base': `"sk" should be a type of 'text'`,
-      'string.empty': `"sk" cannot be an empty field`,
-      'string.pattern.base': `Invalid profile id`,
-      'any.required': `"sk" is a required field`,
-    }),
+  name: Joi.string().messages({
+    'string.base': 'El nombre de la etiqueta debe ser un texto',
+    'string.empty': 'El nombre de la etiqueta no debe ser un texto vacío'
+  }),
+  limit: Joi.number().integer().messages({
+    'number.base': 'El límite debe de ser un número',
+    'number.integer': 'El límite debe ser un número entero'
+  }),
+  offset: Joi.number().integer().messages({
+    'number.base': '\'offset\' debe de ser un número',
+    'number.integer': '\'offset\' debe ser un número entero'
+  }),
+  orderBy: Joi.string().valid('name', '_id').messages({
+    'string.base': '\'orderBy\' debe de ser un texto',
+    'any.only': '\'orderBy\' solo pueda tomar el valor: \'name\' ó \'_id\''
+  })
 })
 
 module.exports = {
   addTagSchm,
   updateTagSchm,
-  getTagSchm,
-  getTagsSchm,
+  getOneTagSchm,
+  getTagsSchm
 }

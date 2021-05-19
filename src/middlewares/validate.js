@@ -9,8 +9,13 @@ const HttpError = require('../classes/httpError')
 const validate = (scheme, attr) => (req, res, next) => {
   try {
     const validation = scheme.validate(req[attr])
-    if (validation.error)
-      throw new HttpError(400, validation.error.details[0].message)
+    if (validation.error) {
+      const errorDetails = validation.error.details[0]
+      throw new HttpError(400, errorDetails.message, {
+        field: errorDetails.path.pop(),
+        value: errorDetails.context.value
+      })
+    }
     next()
   } catch (error) {
     next(error)

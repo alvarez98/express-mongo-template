@@ -2,16 +2,18 @@
 const app = require('./app')
 const connection = require('./db/config')
 const { Configuration, Keys } = require('./config')
+const validateConnection = require('./socket/middlewares/validateConnection')
+const onConnection = require('./socket/events/onConnection')
 const PORT = Configuration.get(Keys.SERVER_PORT) || 5000
 
 // Start server
 const server = app.listen(PORT, () => {
   connection()
     .then(() => {
-      console.log('Database is connected')
+      console.log('Database is connected.')
     })
     .catch((err) => {
-      console.error(err)
+      console.log(err)
       process.exit(0)
     })
 
@@ -22,12 +24,12 @@ const server = app.listen(PORT, () => {
 const io = require('socket.io')(server, {
   cors: {
     origin: 'http://127.0.0.1:5500',
-    methods: ['GET','HEAD','PUT','PATCH','POST','DELETE','OPTIONS'],
-    credentials: true,
-  },
+    methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE', 'OPTIONS'],
+    credentials: true
+  }
 })
 
-io.on('connection', (socket) => {
-  console.log(socket.id);
-  io.to(socket.id).emit('message', 'for your eyes only')
-});
+io.use(validateConnection)
+io.on('connection', onConnection)
+
+global.io = io

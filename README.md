@@ -11,36 +11,35 @@ Instructions for configuration and deployment this project
 - Install [NodeJS y NPM](https://nodejs.org/es/download/)
 - Install [Docker](https://docs.docker.com/engine/install/) y [Docker-compose](https://docs.docker.com/compose/install/)
 
-### Installing :arrow_down:
-
-Steps
-
-- Install dependencies if you want to execute tests:
-```sh
-$ npm i
-```
-- Configure your environment variables on a .env file like in ´.env.example´
-
-- Create these variables with:
-```sh
-$ source .env
-```
-This step is optional
-
 ## Deployment :package:
 
+### Run API
+
+- Configure your environment variables on a .env file like in ´.env.example´
+
 - Init your database and server with:
+
 ```sh
-$ docker-compose up --build
+$ docker-compose up -d
 ```
 
 - To start to mongo express interface just navigate to localhost on port 8081
 
-- Execute the tests with:
+### Run tests
+
+- Create and fill `.env.test` file with the values in `.env.example`
+
+- Create containers and run tests with:
+
 ```sh
-$ npm run test
+$ docker-compose --env-file ./.env.test up -d
 ```
 
+- Run following command for view logs:
+
+```sh
+$ docker-compose logs api
+``` 
 ## Built With :hammer_and_wrench:
 
 - [NodeJs](https://nodejs.org/es/)

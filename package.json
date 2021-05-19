@@ -7,7 +7,7 @@
     "test": "test"
   },
   "dependencies": {
-    "@joi/date": "^2.0.1",
+    "@joi/date": "^2.1.0",
     "bcrypt": "^5.0.0",
     "body-parser": "^1.19.0",
     "cors": "^2.8.5",
@@ -28,11 +28,26 @@
     "standard": "^16.0.3"
   },
   "scripts": {
-    "test": "jest",
-    "dev": "nodemon ./src/server.js",
+    "test": "jest --detectOpenHandles ",
+    "start:dev": "nodemon ./src/server.js",
+    "start:prod": "node ./src/server.js",
     "lint": "standard --fix"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "coveragePathIgnorePatterns": [
+      "/node_modules/"
+    ]
+  },
+  "standard": {
+    "env": [
+      "jest"
+    ]
   },
   "keywords": [],
   "author": "Adolfo Esteban Alvarez Pacheco",
-  "license": "ISC"
+  "license": "ISC",
+  "engines": {
+    "node": "14.x"
+  }
 }
