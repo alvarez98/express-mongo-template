@@ -8,12 +8,12 @@ const PORT = Configuration.get(Keys.SERVER_PORT) || 5000
 
 // Start server
 const server = app.listen(PORT, () => {
-  connection
+  connection()
     .then(() => {
-      console.log('Database is connected')
+      console.log('Database is connected.')
     })
     .catch((err) => {
-      console.error(err)
+      console.log(err)
       process.exit(0)
     })
 

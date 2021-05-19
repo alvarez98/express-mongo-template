@@ -31,5 +31,5 @@ mongoose.set('toJSON', {
 })
 
 const URI = `mongodb://${USERNAME}:${PASSWORD}@${HOST}:${PORT}/${DB_NAME}`
-const conn = mongoose.connect(URI, OPTIONS)
-module.exports = conn
+
+module.exports = () => mongoose.connect(URI, OPTIONS)

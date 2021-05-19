@@ -29,7 +29,8 @@
   },
   "scripts": {
     "test": "jest --detectOpenHandles ",
-    "start": "nodemon ./src/server.js",
+    "start:dev": "nodemon ./src/server.js",
+    "start:prod": "node ./src/server.js",
     "lint": "standard --fix"
   },
   "jest": {
@@ -45,5 +46,8 @@
   },
   "keywords": [],
   "author": "Adolfo Esteban Alvarez Pacheco",
-  "license": "ISC"
+  "license": "ISC",
+  "engines": {
+    "node": "14.x"
+  }
 }
