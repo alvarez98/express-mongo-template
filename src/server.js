@@ -10,7 +10,7 @@ const PORT = Configuration.get(Keys.SERVER_PORT) || 5000
 const server = app.listen(PORT, () => {
   connection()
     .then(() => {
-      console.log('Database is connected.')
+      console.log('Database is connected')
     })
     .catch((err) => {
       console.log(err)
