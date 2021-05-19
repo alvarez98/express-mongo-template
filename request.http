@@ -1,6 +1,6 @@
 @port = 5000
-@baseUrl = http://localhost:{{port}}/api/
-// https://git.heroku.com/bulk-data-api.git/api
+// @baseUrl = http://localhost:{{port}}/api/
+@baseUrl = https://bulk-data-api.herokuapp.com/api
 ################################## QUESTIONARIES ################################
 ### POST /api/questionaries
 POST {{baseUrl}}/questionaries

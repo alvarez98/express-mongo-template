@@ -34,5 +34,4 @@ mongoose.set('toJSON', {
 
 const URI = `mongodb+srv://${USERNAME}:${PASSWORD}@${HOST}${PORT}/${DB_NAME}`
 
-console.log(URI);
 module.exports = () => mongoose.connect(URI, OPTIONS)
