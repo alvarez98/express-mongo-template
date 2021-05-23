@@ -12,7 +12,7 @@ const models = require('../db/keys')
 const validateAnswers = async (req, res, next) => {
   try {
     const section = await findOne(models.SECTION, {
-      _id: req.body.sectionId,
+      _id: req.params.sectionId,
       isActive: true,
     })
     if (section.sectionQuestions.length !== req.body.answers.length)
@@ -62,8 +62,8 @@ const validateAnswers = async (req, res, next) => {
         questionId: questionInSection.questionId,
         answer: questionInSection.questionAnswer,
         studentId: req.body.studentId,
-        sectionId: req.body.sectionId,
-        questionaryId: req.body.questionaryId,
+        sectionId: req.params.sectionId,
+        questionaryId: req.params.questionaryId,
       })
     }
     req.body.answers = formattedAnswers

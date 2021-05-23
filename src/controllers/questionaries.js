@@ -53,7 +53,43 @@ const getQuestionaries = async ({ query }, res, next) => {
     next(error)
   }
 }
+/**
+ * @function getUnansweredSections
+ * @description Controller for GET /api/questionaries
+ * @param {Object} req - Express request object
+ * @param {Object} res - Express response object
+ * @param {Function} next - Express middleware function
+ */
 
+const getUnansweredSections = async ({ params }, res, next) => {
+  try {
+    const unansweredSections = []
+    const questionary = await findOne(
+      models.QUESTIONARY,
+      { _id: params.questionaryId },
+    )
+    for (const sectionId of questionary.questionarySections) {
+      const wasAnsweredSection = await findOne(models.ANSWERED_SECTION, {
+        questionaryId: params.questionaryId,
+        studentId: params.studentId,
+        isActive: true,
+        sectionId
+      })
+      if (!wasAnsweredSection) {
+        const section = await findOne(
+          models.SECTION,
+          { _id: sectionId },
+        )
+        unansweredSections.push(section)
+      }
+    }
+    res
+      .status(200)
+      .json({ message: 'Success', data: unansweredSections })
+  } catch (error) {
+    next(error)
+  }
+}
 /**
  * @function getOneQuestionary
  * @description Controller for GET /api/questionaries/:id
@@ -66,7 +102,7 @@ const getOneQuestionary = async ({ params }, res, next) => {
   try {
     const questionary = await findOne(models.QUESTIONARY, {
       ...params,
-      isActive: true
+      isActive: true,
     })
     if (!questionary) throw new HttpError(400, 'Questionary not exist')
     res.status(200).json({ data: questionary, message: 'Success' })
@@ -109,7 +145,9 @@ const deleteQuestionary = async ({ params }, res, next) => {
       { ...params, isActive: true },
       { isActive: false }
     )
-    if (!resp.nModified) { throw new HttpError(400, `Questionary ${params._id} not exist`) }
+    if (!resp.nModified) {
+      throw new HttpError(400, `Questionary ${params._id} not exist`)
+    }
     res.status(200).json({ id: params._id, message: 'Deleted' })
   } catch (error) {
     next(error)
@@ -121,5 +159,6 @@ module.exports = {
   getQuestionaries,
   getOneQuestionary,
   updateQuestionary,
-  deleteQuestionary
+  deleteQuestionary,
+  getUnansweredSections
 }

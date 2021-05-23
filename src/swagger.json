@@ -1,0 +1,282 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "title": "E-Learning System",
+        "description": "E-Learning System Documentation",
+        "version": "1.0"
+    },
+    "produces": ["application/json"],
+    "host": "localhost:5000",
+    "basePath": "/api",
+    "paths": {
+        "/users": {
+            "post": {
+                "summary": "Add a new user",
+                "tags": ["/users"],
+                "description": "Save new users",
+                "parameters": [{
+                        "in": "body",
+                        "required": true,
+                        "name": "body",
+                        "description": "Object that needs to be added",
+                        "schema": {
+                            "properties": {
+                                "UserName": {
+                                    "type": "string"
+                                },
+                                "UserLastName": {
+                                    "type": "string"
+                                },
+                                "UserEmail": {
+                                    "type": "string"
+                                },
+                                "UserPassword": {
+                                    "type": "string"
+                                },
+                                "UserRol": {
+                                    "type": "string"
+                                },
+                                "UserActive": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "in": "header",
+                        "name": "Authorization",
+                        "description": "Access token",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "{ uuid:uuid, message: Success }"
+                    }
+                }
+            },
+            "get": {
+                "summary": "Returns a list of users",
+                "tags": ["/users"],
+                "parameters": [{
+                    "in": "query",
+                    "name": "offset",
+                    "schema": {
+                        "type": "integer"
+                    },
+                    "description": "Number that starts at zero but can be changed"
+                }, {
+                    "in": "query",
+                    "name": "limit",
+                    "schema": {
+                        "type": "integer"
+                    },
+                    "description": "Number that has a default limit of twenty but can be changed"
+                }, {
+                    "in": "query",
+                    "name": "rol",
+                    "schema": {
+                        "type": "string"
+                    },
+                    "description": "admin/user/student/teacher"
+                }, {
+                    "in": "query",
+                    "name": "active",
+                    "schema": {
+                        "type": "boolean"
+                    },
+                    "description": "Defaults to true"
+                }],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
+        "/users/{id}": {
+            "get": {
+                "summary": "Gets a user by id.",
+                "tags": ["/users/:id"],
+                "parameters": [{
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "in": "header",
+                        "name": "Authorization",
+                        "description": "Access token",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
+        "/api/auth": {
+            "post": {
+                "description": "Login for users",
+                "tags": ["/auth"],
+                "parameters": [{
+                        "name": "UserEmail",
+                        "description": "Email of user",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "UserPassword",
+                        "description": "Password(8 characters minimum)",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
+        "/api/enrollments": {
+            "post": {
+                "x-swagger-router-controller": "middleware-name1",
+                "operationId": "Save Enrollments",
+                "tags": ["/enrollments"],
+                "description": "Save new enrollments",
+                "parameters": [{
+                        "name": "EnrollmentStudentID",
+                        "description": "uuid",
+                        "required": true,
+                        "schema": {
+                            "type": "uuid"
+                        }
+                    },
+                    {
+                        "name": "EnrollmentCourseID",
+                        "description": "uuid",
+                        "required": true,
+                        "schema": {
+                            "type": "uuid"
+                        }
+                    },
+                    {
+                        "name": "EnrollmentCostCourse",
+                        "description": "Cost Course",
+                        "required": true,
+                        "schema": {
+                            "type": "number"
+                        }
+                    },
+                    {
+                        "name": "EnrollmentPaidOut",
+                        "description": "Paid Out (true significa que fue pagado por completo)",
+                        "required": true,
+                        "schema": {
+                            "type": "boolean"
+                        }
+                    },
+                    {
+                        "name": "EnrollmentActive",
+                        "description": "Active",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "201": {
+                    "description": "{ uuid:uuid, message: Success }"
+                }
+            }
+        },
+        "/api/course-templates": {
+            "post": {
+                "x-swagger-router-controller": "middleware-name1",
+                "operationId": "Save Course-Templates",
+                "tags": ["/course-templates"],
+                "description": "Save new course",
+                "parameters": [{
+                        "name": "CourseTemplateName",
+                        "description": "Name",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "CourseTemplateContent",
+                        "description": "Course content",
+                        "required": true,
+                        "schema": {
+                            "type": "array"
+                        }
+                    },
+                    {
+                        "name": "CourseTemplateRequirements",
+                        "description": "Course requirements",
+                        "required": true,
+                        "schema": {
+                            "type": "array"
+                        }
+                    },
+                    {
+                        "name": "CourseTemplateMaterial",
+                        "description": "Course Material",
+                        "required": true,
+                        "schema": {
+                            "type": "array"
+                        }
+                    },
+                    {
+                        "name": "CourseTemplateTeacher",
+                        "description": "Name teacher",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "CourseTemplateDescription",
+                        "description": "Course Description",
+                        "required": true,
+                        "schema": {
+                            "type": "boolean"
+                        }
+                    },
+                    {
+                        "name": "CourseTemplateTags",
+                        "description": "Course tags",
+                        "required": true,
+                        "schema": {
+                            "type": "array"
+                        }
+                    },
+                    {
+                        "name": "CourseTemplateActive",
+                        "description": "Course status",
+                        "required": true,
+                        "schema": {
+                            "type": "boolean"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "{ uuid:uuid, message: Success }"
+                    }
+                }
+            }
+        }
+    }
+}

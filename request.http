@@ -1,6 +1,6 @@
 @port = 5000
-// @baseUrl = http://localhost:{{port}}/api/
-@baseUrl = https://bulk-data-api.herokuapp.com/api
+@baseUrl = http://localhost:{{port}}/api/
+// @baseUrl = https://bulk-data-api.herokuapp.com/api
 ################################## QUESTIONARIES ################################
 ### POST /api/questionaries
 POST {{baseUrl}}/questionaries
@@ -11,7 +11,7 @@ Content-Type: application/json
     "questionaryDescription": "TEST",
     "questionaryAudicence": "TEST",
     "questionarySections": [
-        "92ec9ea9-f6af-4cf7-b2d1-acf4af6aa85d"
+        "01c45996-f15f-4c1e-aba4-5153133c489a"
     ]
 }
 
@@ -23,14 +23,17 @@ Content-Type: application/json
 GET {{baseUrl}}/questionaries
 Content-Type: application/json
 
+### GET /api/questionaries/:_questionaryId/sections/unanswered/student/:studentId
+GET {{baseUrl}}/questionaries/e9a43e8c-cf42-4776-ad3c-93abebbb28c0/sections/unanswered/student/32468ba5-4c52-4a75-bb2f-e649287da878
+
 ### PUT /api/questionaries
-PUT {{baseUrl}}/questionaries/c62c084a-dfc9-4f44-abee-85eadadcf922
+PUT {{baseUrl}}/questionaries/e9a43e8c-cf42-4776-ad3c-93abebbb28c0
 Content-Type: application/json
 
 {
-    "questionaryName": "Socio-Economico",
     "questionarySections": [
-        "eed79572-2ebb-4fba-bf03-b4fd197d944b"
+        "01c45996-f15f-4c1e-aba4-5153133c489a",
+        "1e1a49cf-627a-49e4-8488-ec34a3945b11"
     ]
 }
 
@@ -45,9 +48,9 @@ POST {{baseUrl}}/sections
 Content-Type: application/json
 
 {
-    "sectionName": "Social",
+    "sectionName": "Social 2",
     "sectionDescription": "TEST",
-    "sectionQuestions": ["6f6fd439-ca23-41af-8f2e-0679cf2f108b"]
+    "sectionQuestions": ["ada5a675-cc25-491e-a1c8-e6333536334a"]
 }
 
 ### GET /api/sections/:id
@@ -82,7 +85,7 @@ Content-Type: application/json
 }
 
 ### GET /api/questions/:id
-GET {{baseUrl}}/questions/27d20a2b-106b-4b9d-b815-56dfc8e2b3c5
+GET {{baseUrl}}/questions/ada5a675-cc25-491e-a1c8-e6333536334a
 Content-Type: application/json
 
 ### GET /api/questions
@@ -104,16 +107,14 @@ Content-Type: application/json
 
 ################################## ANSWERS ################################
 ### POST /api/answers
-POST {{baseUrl}}/answers
+POST {{baseUrl}}/questionaries/e9a43e8c-cf42-4776-ad3c-93abebbb28c0/section/01c45996-f15f-4c1e-aba4-5153133c489a/answers
 Content-Type: application/json
 
 {
-    "questionaryId": "55e12f84-9d8a-4e6a-810e-b40c0bec8737",
-    "sectionId": "92ec9ea9-f6af-4cf7-b2d1-acf4af6aa85d",
     "studentId": "32468ba5-4c52-4a75-bb2f-e649287da878",
     "answers": [
     {
-        "questionId": "6f6fd439-ca23-41af-8f2e-0679cf2f108b",
+        "questionId": "ada5a675-cc25-491e-a1c8-e6333536334a",
         "questionAnswer": "3"
     }]
 }

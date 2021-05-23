@@ -1,18 +1,6 @@
 const Joi = require('joi')
 
 const addAnswerSchm = Joi.object({
-  questionaryId: Joi.string().uuid().required().messages({
-    'string.base': 'El id del cuestionario debe ser un texto',
-    'string.empty': 'El id del cuestionario no debe ser un texto vacío',
-    'string.guid': 'El id del cuestionario debe ser un UUID válido',
-    'any.required': 'El id del cuestionario es un campo requerido'
-  }),
-  sectionId: Joi.string().uuid().required().messages({
-    'string.base': 'El id de la sección debe ser un texto',
-    'string.empty': 'El id de la sección no debe ser un texto vacío',
-    'string.guid': 'El id de la sección debe ser un UUID válido',
-    'any.required': 'El id de la sección es un campo requerido'
-  }),
   studentId: Joi.string().uuid().required().messages({
     'string.base': 'El id del estudiante debe ser un texto',
     'string.empty': 'El id del estudiante no debe ser un texto vacío',
@@ -40,6 +28,20 @@ const addAnswerSchm = Joi.object({
       'array.base': '\'answers\' debe ser una lista de respuestas',
       'any.required': '\'answers\' es un campo requerido'
     })
+})
+const addAnswerParamsSchm = Joi.object({
+  questionaryId: Joi.string().uuid().required().messages({
+    'string.base': 'El id del cuestionario debe ser un texto',
+    'string.empty': 'El id del cuestionario no debe ser un texto vacío',
+    'string.guid': 'El id del cuestionario debe ser un UUID válido',
+    'any.required': 'El id del cuestionario es un campo requerido'
+  }),
+  sectionId: Joi.string().uuid().required().messages({
+    'string.base': 'El id de la sección debe ser un texto',
+    'string.empty': 'El id de la sección no debe ser un texto vacío',
+    'string.guid': 'El id de la sección debe ser un UUID válido',
+    'any.required': 'El id de la sección es un campo requerido'
+  })
 })
 
 const getOneAnswerSchm = Joi.object({
@@ -82,6 +84,7 @@ const getAnswersSchm = Joi.object({
 
 module.exports = {
   addAnswerSchm,
+  addAnswerParamsSchm,
   getOneAnswerSchm,
   getAnswersSchm
 }

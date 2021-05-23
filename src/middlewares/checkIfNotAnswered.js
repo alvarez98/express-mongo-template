@@ -10,16 +10,16 @@ const models = require('../db/keys')
  */
 const checkIfNotAnswered = async (req, res, next) => {
   try {
-    const isAnswered = await findOne(models.ANSWERED_SECTION, {
+    const wasAnswered = await findOne(models.ANSWERED_SECTION, {
       studentId: req.body.studentId,
-      sectionId: req.body.sectionId,
-      questionaryId: req.body.questionaryId,
+      sectionId: req.params.sectionId,
+      questionaryId: req.params.questionaryId,
       isActive: true
     })
-    if (isAnswered) {
-      throw new HttpError(400, 'La sección ya ah sido respondida', {
+    if (wasAnswered) {
+      throw new HttpError(400, 'La sección ya ha sido respondida', {
         field: 'sectionId',
-        value: req.body.sectionId
+        value: req.params.sectionId
       })
     }
     next()

@@ -6,13 +6,13 @@ const {
   getSections,
   getOneSection,
   updateSection,
-  deleteSection
+  deleteSection,
 } = require('../controllers/sections')
 const {
   addSectionSchm,
   getOneSectionSchm,
   getSectionsSchm,
-  updateSectionSchm
+  updateSectionSchm,
 } = require('../schemes/sections')
 const validate = require('../middlewares/validate')
 const checkItemExist = require('../middlewares/checkItemExist')

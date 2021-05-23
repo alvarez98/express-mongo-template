@@ -15,7 +15,7 @@ const mongoose = require('mongoose')
  * @param {Object} res - Express response object
  * @param {Function} next - Express middleware function
  */
-const addAnswer = async ({ body }, res, next) => {
+const addAnswer = async ({ body, params }, res, next) => {
   try {
     const session = await mongoose.startSession()
     session.startTransaction()
@@ -23,15 +23,15 @@ const addAnswer = async ({ body }, res, next) => {
       models.ANSWERED_SECTION,
       {
         studentId: body.studentId,
-        sectionId: body.sectionId,
-        questionaryId: body.questionaryId,
+        sectionId: params.sectionId,
+        questionaryId: params.questionaryId,
       },
       { session }
     )
     await add(models.ANSWER, body.answers, { session })
     await session.commitTransaction()
     session.endSession()
-    res.status(201).json({ message: 'Created' })
+    res.status(201).json({ message: 'Se guardaron las respuestas correctamente' })
   } catch (error) {
     next(error)
   }

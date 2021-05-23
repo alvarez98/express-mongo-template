@@ -59,6 +59,21 @@ const updateQuestionarySchm = Joi.object({
     })
 })
 
+const getUnansweredSectionsSchm = Joi.object({
+  questionaryId: Joi.string().uuid().required().messages({
+    'string.base': 'El id del cuestionario debe ser un texto',
+    'string.empty': 'El id del cuestionario no debe ser un texto vacío',
+    'string.guid': 'El id del cuestionario debe ser un UUID válido',
+    'any.required': 'El id del cuestionario es un campo requerido'
+  }),
+  studentId: Joi.string().uuid().required().messages({
+    'string.base': 'El id del estudiante debe ser un texto',
+    'string.empty': 'El id del estudiante no debe ser un texto vacío',
+    'string.guid': 'El id del estudiante debe ser un UUID válido',
+    'any.required': 'El id del estudiante es un campo requerido'
+  }),
+})
+
 const getOneQuestionarySchm = Joi.object({
   _id: Joi.string().uuid().required().messages({
     'string.base': 'El id debe ser un texto',
@@ -99,5 +114,6 @@ module.exports = {
   addQuestionarySchm,
   updateQuestionarySchm,
   getOneQuestionarySchm,
-  getQuestionariesSchm
+  getQuestionariesSchm,
+  getUnansweredSectionsSchm
 }
