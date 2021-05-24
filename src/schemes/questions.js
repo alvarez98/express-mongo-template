@@ -31,7 +31,6 @@ const addQuestionSchm = Joi.object({
         otherwise: Joi.forbidden()
       }
     ])
-    .required()
 })
 
 const updateQuestionSchm = Joi.object({

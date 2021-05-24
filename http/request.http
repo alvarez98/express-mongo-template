@@ -120,20 +120,12 @@ Content-Type: application/json
 }
 
 ### GET /api/answers/:id
-GET {{baseUrl}}/answers/27d20a2b-106b-4b9d-b815-56dfc8e2b3c5
+GET {{baseUrl}}/answers/30c44039-2261-422c-9b83-92990c64f85c
 Content-Type: application/json
 
 ### GET /api/answers
-GET {{baseUrl}}/answers
+GET {{baseUrl}}/answers/
 Content-Type: application/json
-
-### PUT /api/answers
-PUT {{baseUrl}}/answers/68b9c879-feb5-4b33-84c4-3ca5144cfa30
-Content-Type: application/json
-
-{
-    "sectionName": "Socio-Economico"
-}
 
 ### DELETE /api/answers/:id
 DELETE {{baseUrl}}/answers/68b9c879-feb5-4b33-84c4-3ca5144cfa30
@@ -146,21 +138,24 @@ Content-Type: application/json
 
 {
     "user": "6bdf63e7-14e5-40ff-955d-1ea1bf054a02",
-    "message": "Nueva noti",
-    "subject": "Noti",
-    "date": "2021-03-04T08:15:30-05:00"
+    "message": "Notificación",
+    "subject": "Notificación",
+    "date": "2021-03-04T08:15:30-05:00",
+    "data": {
+        "URL": "http://lo_que_sea.com"
+    }
 }
 
 ### GET /api/notifications/:id
-GET {{baseUrl}}/notifications
+GET {{baseUrl}}/notifications/7690a8cf-4f83-4eb5-8bb4-ecedfe07a5e4
 Content-Type: application/json
 
 ### GET /api/notifications
-GET {{baseUrl}}/notifications?date=2021-03-04&date=less
+GET {{baseUrl}}/notifications?read=false
 Content-Type: application/json
 
 ### PUT /api/notifications
-PUT {{baseUrl}}/notifications/58972195-a5b9-4767-8e19-79e2f219c971
+PUT {{baseUrl}}/notifications/7690a8cf-4f83-4eb5-8bb4-ecedfe07a5e4
 Content-Type: application/json
 
 {
@@ -175,18 +170,18 @@ Content-Type: application/json
     "name": "Social"
 }
 
-### GET /api/tags/:id
-GET {{baseUrl}}/tags?name=soc
+### GET /api/tags/
+GET {{baseUrl}}/tags
 Content-Type: application/json
 
-### GET /api/tags
-GET {{baseUrl}}/tags/7660a509-f61c-4655-8547-93f2d08af120
+### GET /api/tags/:id
+GET {{baseUrl}}/tags/dec85d81-d201-4e00-83e0-02aefd86dc8b
 Content-Type: application/json
 
 ### PUT /api/tags
-PUT {{baseUrl}}/tags/7660a509-f61c-4655-8547-93f2d08af120
+PUT {{baseUrl}}/tags/dec85d81-d201-4e00-83e0-02aefd86dc8b
 Content-Type: application/json
 
 {
-    "name": "Name"
+    "name": "Tag"
 }

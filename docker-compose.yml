@@ -10,7 +10,7 @@ services:
     volumes:
       - .:/usr/src/app
     ports:
-      - ${SERVER_PORT}:${SERVER_PORT}
+      - ${PORT}:${PORT}
     command: ${DOCKER_COMMAND}
     depends_on: 
       - mongo

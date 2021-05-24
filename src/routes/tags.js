@@ -24,13 +24,13 @@ router.get('/:_id', validate(getOneTagSchm, 'params'), getOneTag)
 router.delete(
   '/:_id',
   validate(getOneTagSchm, 'params'),
-  checkItemExist(models.TAG, 'params', '_id'),
+  checkItemExist(models.TAG, 'params', '_id', 'No se encontró la etiqueta'),
   deleteTag
 )
 router.put(
   '/:_id',
   validate(getOneTagSchm, 'params'),
-  checkItemExist(models.TAG, 'params', '_id'),
+  checkItemExist(models.TAG, 'params', '_id', 'No se encontró la etiqueta'),
   validate(updateTagSchm, 'body'),
   updateTag
 )

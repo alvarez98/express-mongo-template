@@ -24,13 +24,13 @@ router.get('/:_id', validate(getOneNtfSchm, 'params'), getOneNotification)
 router.delete(
   '/:_id',
   validate(getOneNtfSchm, 'params'),
-  checkItemExist(models.NOTIFICATION, 'params', '_id'),
+  checkItemExist(models.NOTIFICATION, 'params', '_id', 'La notificación no se encontró'),
   deleteNotification
 )
 router.put(
   '/:_id',
   validate(getOneNtfSchm, 'params'),
-  checkItemExist(models.NOTIFICATION, 'params', '_id'),
+  checkItemExist(models.NOTIFICATION, 'params', '_id', 'La notificación no se encontró'),
   validate(updateNtfSchm, 'body'),
   updateNotification
 )

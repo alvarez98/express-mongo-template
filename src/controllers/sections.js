@@ -4,7 +4,6 @@ const findOne = require('../db/controllers/findOne')
 const find = require('../db/controllers/find')
 const updateOne = require('../db/controllers/updateOne')
 const models = require('../db/keys')
-const { buildSectionFilters } = require('../db/controllers/buildFilters')
 
 /**
  * @function addSection
@@ -30,26 +29,44 @@ const addSection = async ({ body, params }, res, next) => {
  * @param {Object} res - Express response object
  * @param {Function} next - Express middleware function
  */
-
 const getSections = async ({ query }, res, next) => {
   try {
-    let {
-      limit = 20,
-      orderBy = 'sectionName',
-      offset = 0,
-      ...filters
-    } = query
-    filters = buildSectionFilters(filters)
+    let { limit = 20, offset = 0 } = query
     const sections = await find(
-      models.SECTION,
-      filters,
+      models.QUESTIONARY,
+      {},
       limit,
       offset,
-      orderBy
+      'sectionName'
     )
-    res
-      .status(200)
-      .json({ data: sections, count: sections.length, offset })
+    res.status(200).json({ data: sections, count: sections.length, offset })
+  } catch (error) {
+    next(error)
+  }
+}
+/**
+ * @function getSectionsByQuestionary
+ * @description Controller for GET /api/questionaries/:_id/sections
+ * @param {Object} req - Express request object
+ * @param {Object} res - Express response object
+ * @param {Function} next - Express middleware function
+*/
+
+const getSectionsByQuestionary = async ({ params, query }, res, next) => {
+  try {
+    let { limit = 20, offset = 0 } = query
+    const questionary = await findOne(models.QUESTIONARY, { _id: params._id })
+    let sections = []
+    for (const sectionId of questionary.questionarySections) {
+      const section = await findOne(models.SECTION, { _id: sectionId })
+      sections.push(section)
+    }
+    sections = sections.slice(offset, offset + limit)
+    res.status(200).json({
+      data: sections,
+      count: sections.length,
+      offset,
+    })
   } catch (error) {
     next(error)
   }
@@ -61,13 +78,13 @@ const getSections = async ({ query }, res, next) => {
  * @param {Object} req
  * @param {Object} res
  * @param {Function} next
- */
+*/
 
 const getOneSection = async ({ params }, res, next) => {
   try {
     const section = await findOne(models.SECTION, {
       ...params,
-      isActive: true
+      isActive: true,
     })
     if (!section) throw new HttpError(400, 'Section not exist')
     res.status(200).json({ data: section, message: 'Success' })
@@ -82,7 +99,7 @@ const getOneSection = async ({ params }, res, next) => {
  * @param {Object} req
  * @param {Object} res
  * @param {Function} next
- */
+*/
 
 const updateSection = async ({ params, body }, res, next) => {
   try {
@@ -110,7 +127,9 @@ const deleteSection = async ({ params }, res, next) => {
       { ...params, isActive: true },
       { isActive: false }
     )
-    if (!resp.nModified) { throw new HttpError(400, `Section ${params._id} not exist`) }
+    if (!resp.nModified) {
+      throw new HttpError(400, `Section ${params._id} not exist`)
+    }
     res.status(200).json({ id: params._id, message: 'Deleted' })
   } catch (error) {
     next(error)
@@ -120,7 +139,8 @@ const deleteSection = async ({ params }, res, next) => {
 module.exports = {
   addSection,
   getSections,
+  getSectionsByQuestionary,
   getOneSection,
   updateSection,
-  deleteSection
+  deleteSection,
 }

@@ -20,6 +20,7 @@ const addNotification = async ({ body }, res, next) => {
       isConnected: true
     })
     if (client) { global.io.to(client.socket).emit('notification', JSON.stringify(body)) }
+    body.data = JSON.stringify(body.data)
     const notification = await add(models.NOTIFICATION, body)
     res.status(201).json({ id: notification.id, message: 'Created' })
   } catch (error) {
@@ -80,6 +81,7 @@ const getOneNotification = async ({ params }, res, next) => {
 
 const updateNotification = async ({ params, body }, res, next) => {
   try {
+    if (body.data) body.data = JSON.stringify(body.data)
     const result = await updateOne(models.NOTIFICATION, params, body)
     res
       .status(200)

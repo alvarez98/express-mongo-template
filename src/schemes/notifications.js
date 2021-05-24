@@ -2,16 +2,17 @@ const Joi = require('joi')
 
 const addNtfSchm = Joi.object({
   user: Joi.string().uuid().required().messages({
-    'string.base': 'El id de usuario debe ser un texto',
-    'string.empty': 'El id de usuario no debe ser un texto vacío',
-    'string.guid': 'El id de usuario debe ser un UUID válido',
-    'any.required': 'El id de usuario es un campo requerido'
+    'string.base': 'El identificador de usuario debe ser un texto',
+    'string.empty': 'El identificador de usuario no debe ser un texto vacío',
+    'string.guid': 'El identificador de usuario debe ser un UUID válido',
+    'any.required': 'El identificador de usuario es un campo requerido'
   }),
   message: Joi.string().required().messages({
     'string.base': 'El mensaje debe ser un texto',
     'string.empty': 'El mensaje no debe ser un texto vacío',
     'any.required': 'El mensaje es un campo requerido'
   }),
+  data: Joi.any(),
   subject: Joi.string().required().messages({
     'string.base': 'El asunto debe ser un texto',
     'string.empty': 'El asunto no debe ser un texto vacío',
@@ -38,6 +39,7 @@ const updateNtfSchm = Joi.object({
     'string.base': 'El asunto debe ser un texto',
     'string.empty': 'El asunto no debe ser un texto vacío'
   }),
+  data: Joi.any(),
   date: Joi.date()
     .max(new Date().getTime() + 1000)
     .messages({
@@ -53,30 +55,24 @@ const updateNtfSchm = Joi.object({
 
 const getOneNtfSchm = Joi.object({
   _id: Joi.string().uuid().required().messages({
-    'string.base': 'El id debe ser un texto',
-    'string.empty': 'El id no debe ser un texto vacío',
-    'string.guid': 'El id debe ser un UUID válido',
-    'any.required': 'El id es un campo requerido'
+    'string.base': 'El identificador debe ser un texto',
+    'string.empty': 'El identificador no debe ser un texto vacío',
+    'string.guid': 'El identificador debe ser un UUID válido',
+    'any.required': 'El identificador es un campo requerido'
   })
 })
 
 const getNtfsSchm = Joi.object({
+  user: Joi.string().uuid().messages({
+    'string.base': 'El identificador del usuario debe ser un texto',
+    'string.empty': 'El identificador del usuario no debe ser un texto vacío',
+    'string.guid': 'El identificador del usuario debe ser un UUID válido',
+    'any.required': 'El identificador del usuario es un campo requerido'
+  }),
   subject: Joi.string().messages({
     'string.base': 'El asunto debe ser un texto',
     'string.empty': 'El asunto no debe ser un texto vacío'
   }),
-  date: Joi.array()
-    .items(
-      Joi.date().required().messages({
-        'date.base': 'El primer campo debe ser una fecha',
-        'any.required': 'El primer campo es requerido'
-      }),
-      Joi.string().valid('equal', 'greater', 'less').required().messages({
-        'string.base': 'El segundo campo debe ser texto',
-        'any.only': 'El segundo campo solo pueda tomar el valor: \'equal\', \'greater\' ó \'less\''
-      })
-    )
-    .length(2),
   read: Joi.boolean().messages({
     'boolean.base': '\'read\' solo debe de ser un valor booleano'
   }),

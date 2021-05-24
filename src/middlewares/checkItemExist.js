@@ -12,7 +12,8 @@ const checkItemExist = (
   model,
   reqProperty,
   attribute,
-  key = attribute
+  errorMessage,
+  key = attribute,
 ) => async (req, res, next) => {
   try {
     const valueToValidate = req[reqProperty][attribute]
@@ -25,7 +26,10 @@ const checkItemExist = (
             isActive: true
           })
           if (!isExist) {
-            throw new HttpError(400, `${model} not exist`)
+            throw new HttpError(400, errorMessage, {
+              field: [reqProperty, attribute],
+              value: valueToValidate
+            })
           }
         }
         // Unique value
@@ -35,7 +39,10 @@ const checkItemExist = (
           isActive: true
         })
         if (!isExist) {
-          throw new HttpError(400, `${model} not exist`)
+          throw new HttpError(400, errorMessage, {
+            field: [reqProperty, attribute],
+            value: valueToValidate
+          })
         }
       }
     }

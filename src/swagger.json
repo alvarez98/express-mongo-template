@@ -1,42 +1,307 @@
 {
     "swagger": "2.0",
     "info": {
-        "title": "E-Learning System",
-        "description": "E-Learning System Documentation",
+        "title": "Bulk Data API",
+        "description": "API para cuestionarios, notificaciones y tags del Sistema de Servicios Escolares",
         "version": "1.0"
     },
     "produces": ["application/json"],
-    "host": "localhost:5000",
+    "host": "https://bulk-data-api.herokuapp.com",
     "basePath": "/api",
     "paths": {
-        "/users": {
+        "/notifications": {
             "post": {
-                "summary": "Add a new user",
-                "tags": ["/users"],
-                "description": "Save new users",
+                "summary": "Agrega notificaciones",
+                "tags": ["notifications"],
+                "description": "Guarda y envia nuevas notificaciones",
                 "parameters": [{
                         "in": "body",
                         "required": true,
                         "name": "body",
-                        "description": "Object that needs to be added",
+                        "description": "Esquema del cuerpo",
                         "schema": {
                             "properties": {
-                                "UserName": {
+                                "user": {
+                                    "type": "string",
+                                    "format":"uuid"
+                                },
+                                "message": {
                                     "type": "string"
                                 },
-                                "UserLastName": {
+                                "subject": {
                                     "type": "string"
                                 },
-                                "UserEmail": {
+                                "date": {
+                                    "type": "string",
+                                    "format": "date"
+                                },
+                                "data": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "in": "header",
+                        "name": "Authorization",
+                        "description": "Access token",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "{ uuid:uuid, message: Success }"
+                    }
+                }
+            },
+            "get": {
+                "summary": "Regresa una lista de notificaciones",
+                "tags": ["notifications"],
+                "parameters": [{
+                    "in": "query",
+                    "name": "offset",
+                    "schema": {
+                        "type": "integer"
+                    },
+                    "description": "Número entero de items a ignorar al obtener la lista"
+                }, {
+                    "in": "query",
+                    "name": "limit",
+                    "schema": {
+                        "type": "integer"
+                    },
+                    "description": "Número entero de items a retornar"
+                }, {
+                    "in": "query",
+                    "name": "read",
+                    "schema": {
+                        "type": "boolean"
+                    },
+                    "description": "Valor booleano para obtener las notificaciones leídas y no leídas"
+                }, {
+                    "in": "query",
+                    "name": "user",
+                    "schema": {
+                        "type": "uuid"
+                    },
+                    "description": "Retorna las notificaciones dirigidas a un usuario en específico"
+                }, {
+                    "in": "query",
+                    "name": "orderBy",
+                    "schema": {
+                        "type": "'user'/'subject'/'date'"
+                    },
+                    "description": "Retorna la lista ordenada según el valor indicado"
+                }],
+                "responses": {
+                    "200": {
+                        "description": "{ data: [], count: 20, offset: 0 }"
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Elimina una notificación",
+                "tags": ["notifications"],
+                "parameters": [{
+                    "name": "id",
+                    "in": "path",
+                    "required": true,
+                    "schema": {
+                        "type": "uuid"
+                    }
+                }],
+                "responses": {
+                    "200": {
+                        "description": "{ message: 'Deleted' }"
+                    }
+                }
+            },
+            "put": {
+                "summary": "Actualiza una notificación",
+                "tags": ["notifications"],
+                "description": "Actualiza una notificación partir del id",
+                "parameters": [{
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "uuid"
+                        }
+                    },{
+                        "in": "body",
+                        "required": true,
+                        "name": "body",
+                        "description": "Esquema del cuerpo",
+                        "schema": {
+                            "properties": {
+                                "user": {
+                                    "type": "string",
+                                    "format":"uuid"
+                                },
+                                "message": {
                                     "type": "string"
                                 },
-                                "UserPassword": {
+                                "subject": {
                                     "type": "string"
                                 },
-                                "UserRol": {
-                                    "type": "string"
+                                "date": {
+                                    "type": "string",
+                                    "format": "date"
                                 },
-                                "UserActive": {
+                                "data": {
+                                    "type": "object"
+                                },
+                                "read": {
+                                    "type": "boolean"
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "in": "header",
+                        "name": "Authorization",
+                        "description": "Access token",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "{ 'id': 'uuid', 'message': 'Updated', 'changes': 0 }"
+                    }
+                }
+            }
+        },
+        "/notifications/{id}": {
+            "get": {
+                "summary": "Retorna una notificación a partir del id",
+                "tags": ["notifications"],
+                "parameters": [{
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "uuid"
+                        }
+                    },
+                    {
+                        "in": "header",
+                        "name": "Authorization",
+                        "description": "Access token",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "{ data: {}, message: 'Success' }"
+                    }
+                }
+            }
+        },
+        "/tags": {
+            "post": {
+                "summary": "Agrega tags",
+                "tags": ["tags"],
+                "description": "Guarda nuevos tags",
+                "parameters": [{
+                        "in": "body",
+                        "required": true,
+                        "name": "body",
+                        "description": "Esquema del cuerpo",
+                        "schema": {
+                            "properties": {
+                                "name": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "in": "header",
+                        "name": "Authorization",
+                        "description": "Access token",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "{ uuid:uuid, message: Success }"
+                    }
+                }
+            },
+            "get": {
+                "summary": "Regresa una lista de tags",
+                "tags": ["tags"],
+                "parameters": [{
+                    "in": "query",
+                    "name": "offset",
+                    "schema": {
+                        "type": "integer"
+                    },
+                    "description": "Número entero de items a ignorar al obtener la lista"
+                }, {
+                    "in": "query",
+                    "name": "limit",
+                    "schema": {
+                        "type": "integer"
+                    },
+                    "description": "Número entero de items a retornar"
+                }, {
+                    "in": "query",
+                    "name": "name",
+                    "schema": {
+                        "type": "string"
+                    },
+                    "description": "Retorna los tags a partir del nombre"
+                }, {
+                    "in": "query",
+                    "name": "orderBy",
+                    "schema": {
+                        "type": "string"
+                    },
+                    "description": "'name'/'_id'"
+                }],
+                "responses": {
+                    "200": {
+                        "description": "{ data: [], count: 20, offset: 0 }"
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Elimina un tag",
+                "tags": ["tags"],
+                "parameters": [{
+                    "name": "id",
+                    "in": "path",
+                    "required": true,
+                    "schema": {
+                        "type": "uuid"
+                    }
+                }],
+                "responses": {
+                    "200": {
+                        "description": "{ message: 'Deleted' }"
+                    }
+                }
+            },
+            "put": {
+                "summary": "Actualiza un tag",
+                "tags": ["tags"],
+                "description": "Actualiza un tag partir del id",
+                "parameters": [{
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "uuid"
+                        }
+                    },{
+                        "in": "body",
+                        "required": true,
+                        "name": "body",
+                        "description": "Esquema del cuerpo",
+                        "schema": {
+                            "properties": {
+                                "name": {
                                     "type": "string"
                                 }
                             }
@@ -51,59 +316,21 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "{ uuid:uuid, message: Success }"
-                    }
-                }
-            },
-            "get": {
-                "summary": "Returns a list of users",
-                "tags": ["/users"],
-                "parameters": [{
-                    "in": "query",
-                    "name": "offset",
-                    "schema": {
-                        "type": "integer"
-                    },
-                    "description": "Number that starts at zero but can be changed"
-                }, {
-                    "in": "query",
-                    "name": "limit",
-                    "schema": {
-                        "type": "integer"
-                    },
-                    "description": "Number that has a default limit of twenty but can be changed"
-                }, {
-                    "in": "query",
-                    "name": "rol",
-                    "schema": {
-                        "type": "string"
-                    },
-                    "description": "admin/user/student/teacher"
-                }, {
-                    "in": "query",
-                    "name": "active",
-                    "schema": {
-                        "type": "boolean"
-                    },
-                    "description": "Defaults to true"
-                }],
-                "responses": {
-                    "200": {
-                        "description": "OK"
+                        "description": "{ 'id': 'uuid', 'message': 'Updated', 'changes': 0 }"
                     }
                 }
             }
         },
-        "/users/{id}": {
+        "/tags/{id}": {
             "get": {
-                "summary": "Gets a user by id.",
-                "tags": ["/users/:id"],
+                "summary": "Retorna un tag a partir del id",
+                "tags": ["tags"],
                 "parameters": [{
                         "name": "id",
                         "in": "path",
                         "required": true,
                         "schema": {
-                            "type": "string"
+                            "type": "uuid"
                         }
                     },
                     {
@@ -115,165 +342,7 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "OK"
-                    }
-                }
-            }
-        },
-        "/api/auth": {
-            "post": {
-                "description": "Login for users",
-                "tags": ["/auth"],
-                "parameters": [{
-                        "name": "UserEmail",
-                        "description": "Email of user",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "name": "UserPassword",
-                        "description": "Password(8 characters minimum)",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK"
-                    }
-                }
-            }
-        },
-        "/api/enrollments": {
-            "post": {
-                "x-swagger-router-controller": "middleware-name1",
-                "operationId": "Save Enrollments",
-                "tags": ["/enrollments"],
-                "description": "Save new enrollments",
-                "parameters": [{
-                        "name": "EnrollmentStudentID",
-                        "description": "uuid",
-                        "required": true,
-                        "schema": {
-                            "type": "uuid"
-                        }
-                    },
-                    {
-                        "name": "EnrollmentCourseID",
-                        "description": "uuid",
-                        "required": true,
-                        "schema": {
-                            "type": "uuid"
-                        }
-                    },
-                    {
-                        "name": "EnrollmentCostCourse",
-                        "description": "Cost Course",
-                        "required": true,
-                        "schema": {
-                            "type": "number"
-                        }
-                    },
-                    {
-                        "name": "EnrollmentPaidOut",
-                        "description": "Paid Out (true significa que fue pagado por completo)",
-                        "required": true,
-                        "schema": {
-                            "type": "boolean"
-                        }
-                    },
-                    {
-                        "name": "EnrollmentActive",
-                        "description": "Active",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                ],
-                "201": {
-                    "description": "{ uuid:uuid, message: Success }"
-                }
-            }
-        },
-        "/api/course-templates": {
-            "post": {
-                "x-swagger-router-controller": "middleware-name1",
-                "operationId": "Save Course-Templates",
-                "tags": ["/course-templates"],
-                "description": "Save new course",
-                "parameters": [{
-                        "name": "CourseTemplateName",
-                        "description": "Name",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "name": "CourseTemplateContent",
-                        "description": "Course content",
-                        "required": true,
-                        "schema": {
-                            "type": "array"
-                        }
-                    },
-                    {
-                        "name": "CourseTemplateRequirements",
-                        "description": "Course requirements",
-                        "required": true,
-                        "schema": {
-                            "type": "array"
-                        }
-                    },
-                    {
-                        "name": "CourseTemplateMaterial",
-                        "description": "Course Material",
-                        "required": true,
-                        "schema": {
-                            "type": "array"
-                        }
-                    },
-                    {
-                        "name": "CourseTemplateTeacher",
-                        "description": "Name teacher",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "name": "CourseTemplateDescription",
-                        "description": "Course Description",
-                        "required": true,
-                        "schema": {
-                            "type": "boolean"
-                        }
-                    },
-                    {
-                        "name": "CourseTemplateTags",
-                        "description": "Course tags",
-                        "required": true,
-                        "schema": {
-                            "type": "array"
-                        }
-                    },
-                    {
-                        "name": "CourseTemplateActive",
-                        "description": "Course status",
-                        "required": true,
-                        "schema": {
-                            "type": "boolean"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "{ uuid:uuid, message: Success }"
+                        "description": "{ data: {}, message: 'Success' }"
                     }
                 }
             }

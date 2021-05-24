@@ -1,0 +1,67 @@
+@port = 5000
+@baseUrl = http://localhost:{{port}}/api/
+// @baseUrl = https://bulk-data-api.herokuapp.com/api
+
+### POST /api/questionaries
+POST {{baseUrl}}/questionaries
+Content-Type: application/json
+
+{
+    "questionaryName": "Cuestionario",
+    "questionaryDescription": "Cuestionario",
+    "questionaryAudicence": "Alumnos",
+    "questionarySections": [
+        "0e5e0575-422c-4371-9e16-2df95c534f4f"
+    ]
+}
+
+### GET /api/questionaries/:_questionaryId/sections/unanswered/student/:studentId
+GET {{baseUrl}}/questionaries/55e1156f-0212-4be3-812b-64623a2207d2/sections/unanswered/student/32468ba5-4c52-4a75-bb2f-e649287da878
+
+### GET /api/questionaries/:_questionaryId/sections
+GET {{baseUrl}}/questionaries/55e1156f-0212-4be3-812b-64623a2207d2/sections
+
+### GET /api/sections/:_sectionId/questions
+GET {{baseUrl}}/sections/0e5e0575-422c-4371-9e16-2df95c534f4f/questions
+
+### POST /api/sections
+POST {{baseUrl}}/sections
+Content-Type: application/json
+
+{
+    "sectionName": "Sección",
+    "sectionDescription": "Sección",
+    "sectionQuestions": ["aaa9207e-9ee5-487c-a86f-d756b9d7e5c1", "ca4fc34b-0c55-416c-8727-d840cb469ad6"]
+}
+
+### GET /api/sections
+GET {{baseUrl}}/sections
+Content-Type: application/json
+
+### POST /api/questions
+POST {{baseUrl}}/questions
+Content-Type: application/json
+
+{
+    "question": "Pregunta 2",
+    "questionType": "MultipleOption",
+    "questionOptions": ["1", "2", "3"]
+}
+
+### POST /api/answers
+POST {{baseUrl}}/questionaries/55e1156f-0212-4be3-812b-64623a2207d2/sections/0e5e0575-422c-4371-9e16-2df95c534f4f/answers
+Content-Type: application/json
+
+{
+    "studentId": "32468ba5-4c52-4a75-bb2f-e649287da878",
+    "answers": [
+        {
+            "questionId": "ca4fc34b-0c55-416c-8727-d840cb469ad6",
+            "questionAnswer": "3"
+        },
+        {
+            "questionId": "aaa9207e-9ee5-487c-a86f-d756b9d7e5c1",
+            "questionAnswer": "Respuesta"
+        }
+    ]
+}

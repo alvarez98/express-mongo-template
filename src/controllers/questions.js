@@ -49,6 +49,34 @@ const getQuestions = async ({ query }, res, next) => {
 }
 
 /**
+ * @function getQuestionsBySection
+ * @description Controller for GET /api/questionaries/:_id/sections
+ * @param {Object} req - Express request object
+ * @param {Object} res - Express response object
+ * @param {Function} next - Express middleware function
+ */
+
+const getQuestionsBySection = async ({ params, query }, res, next) => {
+  try {
+    let { limit = 20, offset = 0 } = query
+    const section = await findOne(models.SECTION, { _id: params._id })
+    let questions = []
+    for (const questionId of section.sectionQuestions) {
+      const question = await findOne(models.QUESTION, { _id: questionId })
+      questions.push(question)
+    }
+    questions = questions.slice(offset, offset + limit)
+    res.status(200).json({
+      data: questions,
+      count: questions.length,
+      offset,
+    })
+  } catch (error) {
+    next(error)
+  }
+}
+
+/**
  * @function getOneQuestion
  * @description Controller for GET /api/questions/:id
  * @param {Object} req
@@ -113,6 +141,7 @@ const deleteQuestion = async ({ params }, res, next) => {
 module.exports = {
   addQuestion,
   getQuestions,
+  getQuestionsBySection,
   getOneQuestion,
   updateQuestion,
   deleteQuestion

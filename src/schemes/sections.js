@@ -58,10 +58,6 @@ const getOneSectionSchm = Joi.object({
 })
 
 const getSectionsSchm = Joi.object({
-  sectionName: Joi.string().messages({
-    'string.base': 'El nombre de la sección debe ser un texto',
-    'string.empty': 'El nombre de la sección no debe ser un texto vacío'
-  }),
   limit: Joi.number().integer().messages({
     'number.base': 'El límite debe de ser un número',
     'number.integer': 'El límite debe ser un número entero'
@@ -69,10 +65,6 @@ const getSectionsSchm = Joi.object({
   offset: Joi.number().integer().messages({
     'number.base': '\'offset\' debe de ser un número',
     'number.integer': '\'offset\' debe ser un número entero'
-  }),
-  orderBy: Joi.string().valid('sectionName', '_id').messages({
-    'string.base': '\'orderBy\' debe de ser un texto',
-    'any.only': '\'orderBy\' solo pueda tomar el valor: \'sectionName\' ó \'_id\''
   })
 })
 

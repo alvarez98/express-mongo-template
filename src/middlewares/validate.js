@@ -12,7 +12,7 @@ const validate = (scheme, attr) => (req, res, next) => {
     if (validation.error) {
       const errorDetails = validation.error.details[0]
       throw new HttpError(400, errorDetails.message, {
-        field: errorDetails.path.pop(),
+        field: [attr, ...errorDetails.path],
         value: errorDetails.context.value
       })
     }

@@ -7,15 +7,16 @@ const {
   getOneQuestionary,
   updateQuestionary,
   deleteQuestionary,
-  getUnansweredSections
+  getUnansweredSections,
 } = require('../controllers/questionaries')
 const {
   addQuestionarySchm,
   getOneQuestionarySchm,
   getQuestionariesSchm,
   updateQuestionarySchm,
-  getUnansweredSectionsSchm
+  getUnansweredSectionsSchm,
 } = require('../schemes/questionaries')
+const { getSectionsByQuestionary } = require('../controllers/sections')
 const { addAnswer } = require('../controllers/answers')
 const { addAnswerSchm, addAnswerParamsSchm } = require('../schemes/answers')
 const validate = require('../middlewares/validate')
@@ -28,14 +29,46 @@ const validateRelation = require('../middlewares/validateRelation')
 router.post(
   '/',
   validate(addQuestionarySchm, 'body'),
-  checkItemExist(models.SECTION, 'body', 'questionarySections', '_id'),
+  checkItemExist(models.SECTION, 'body', 'questionarySections', 'No se encontró el cuestionario', '_id'),
   addQuestionary
 )
+router.get('/', validate(getQuestionariesSchm, 'query'), getQuestionaries)
+router.get(
+  '/:_id',
+  validate(getOneQuestionarySchm, 'params'),
+  getOneQuestionary
+)
+router.delete(
+  '/:_id',
+  validate(getOneQuestionarySchm, 'params'),
+  deleteQuestionary
+)
+router.put(
+  '/:_id',
+  validate(getOneQuestionarySchm, 'params'),
+  checkItemExist(models.QUESTIONARY, 'params', '_id', 'No se encontró el cuestionario'),
+  validate(updateQuestionarySchm, 'body'),
+  checkItemExist(models.SECTION, 'body', 'questionarySections', 'No se encontró la sección', '_id'),
+  updateQuestionary
+)
+
+/*********************************************************
+ *                       SECTIONS                       *
+*********************************************************/
+router.get(
+  '/:_id/sections',
+  validate(getOneQuestionarySchm, 'params'),
+  checkItemExist(models.QUESTIONARY, 'params', '_id', 'No se encontró el cuestionario'),
+  getSectionsByQuestionary
+)
+/*********************************************************
+ *                       ANSWERS                       *
+*********************************************************/
 router.post(
-  '/:questionaryId/section/:sectionId/answers',
+  '/:questionaryId/sections/:sectionId/answers',
   validate(addAnswerParamsSchm, 'params'),
-  checkItemExist(models.QUESTIONARY, 'params', 'questionaryId', '_id'),
-  checkItemExist(models.SECTION, 'params', 'sectionId', '_id'),
+  checkItemExist(models.QUESTIONARY, 'params', 'questionaryId', 'No se encontró el cuestionario', '_id'),
+  checkItemExist(models.SECTION, 'params', 'sectionId', 'No se encontró la sección', '_id'),
   validate(addAnswerSchm, 'body'),
   validateRelation(
     models.QUESTIONARY,
@@ -48,30 +81,11 @@ router.post(
   validateAnswers,
   addAnswer
 )
-router.get('/', validate(getQuestionariesSchm, 'query'), getQuestionaries)
-router.get(
-  '/:_id',
-  validate(getOneQuestionarySchm, 'params'),
-  getOneQuestionary
-)
 router.get(
   '/:questionaryId/sections/unanswered/student/:studentId',
   validate(getUnansweredSectionsSchm, 'params'),
-  checkItemExist(models.QUESTIONARY, 'params', 'questionaryId', '_id'),
+  checkItemExist(models.QUESTIONARY, 'params', 'questionaryId', 'No se encontró el cuestionario', '_id'),
   getUnansweredSections
-)
-router.delete(
-  '/:_id',
-  validate(getOneQuestionarySchm, 'params'),
-  deleteQuestionary
-)
-router.put(
-  '/:_id',
-  validate(getOneQuestionarySchm, 'params'),
-  checkItemExist(models.QUESTIONARY, 'params', '_id'),
-  validate(updateQuestionarySchm, 'body'),
-  checkItemExist(models.SECTION, 'body', 'questionarySections', '_id'),
-  updateQuestionary
 )
 
 module.exports = router

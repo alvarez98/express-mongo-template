@@ -25,7 +25,7 @@ router.delete('/:_id', validate(getOneQuestionSchm, 'params'), deleteQuestion)
 router.put(
   '/:_id',
   validate(getOneQuestionSchm, 'params'),
-  checkItemExist(models.QUESTION, 'params', '_id'),
+  checkItemExist(models.QUESTION, 'params', '_id', 'No se encontró la pregunta'),
   validate(updateQuestionSchm, 'body'),
   updateQuestion
 )

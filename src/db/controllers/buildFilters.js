@@ -7,9 +7,6 @@ const operators = {
 const buildNtfsFilters = (filters) => {
   if (filters.user) filters.user = new RegExp(filters.user, 'i')
   if (filters.subject) filters.subject = new RegExp(filters.subject, 'i')
-  if (filters.date) {
-    filters.date = { [operators[filters.date[1]]]: filters.date[0] }
-  }
   filters.isActive = true
   return filters
 }
