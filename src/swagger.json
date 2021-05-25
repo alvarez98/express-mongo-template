@@ -89,7 +89,8 @@
                     "in": "query",
                     "name": "orderBy",
                     "schema": {
-                        "type": "'user'/'subject'/'date'"
+                        "type": "string",
+                        "enum": ["user", "subject", "date"]
                     },
                     "description": "Retorna la lista ordenada según el valor indicado"
                 }],
@@ -256,9 +257,9 @@
                     "in": "query",
                     "name": "orderBy",
                     "schema": {
-                        "type": "string"
-                    },
-                    "description": "'name'/'_id'"
+                        "type": "string",
+                        "enum": ["name", "_id"]
+                    }
                 }],
                 "responses": {
                     "200": {
@@ -343,6 +344,735 @@
                 "responses": {
                     "200": {
                         "description": "{ data: {}, message: 'Success' }"
+                    }
+                }
+            }
+        },
+        "/questionaries": {
+            "post": {
+                "summary": "Agrega cuestionarios",
+                "tags": ["questionaries"],
+                "description": "Guarda nuevos cuestionarios",
+                "parameters": [{
+                        "in": "body",
+                        "required": true,
+                        "name": "body",
+                        "description": "Esquema del cuerpo",
+                        "schema": {
+                            "properties": {
+                                "questionaryName": {
+                                    "type": "string"
+                                },
+                                "questionaryDescription": {
+                                    "type": "string"
+                                },
+                                "questionaryAudicence": {
+                                    "type": "string"
+                                },
+                                "questionarySections": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "string",
+                                        "format": "uuid"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "in": "header",
+                        "name": "Authorization",
+                        "description": "Access token",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "{ id:uuid, message: Success }"
+                    }
+                }
+            },
+            "get": {
+                "summary": "Regresa una lista de cuestionarios",
+                "tags": ["questionaries"],
+                "parameters": [{
+                    "in": "query",
+                    "name": "offset",
+                    "schema": {
+                        "type": "integer"
+                    },
+                    "description": "Número entero de items a ignorar al obtener la lista"
+                }, {
+                    "in": "query",
+                    "name": "limit",
+                    "schema": {
+                        "type": "integer"
+                    },
+                    "description": "Número entero de items a retornar"
+                }, {
+                    "in": "query",
+                    "name": "questionaryName",
+                    "schema": {
+                        "type": "string"
+                    },
+                    "description": "Retorna los tags a partir del nombre del cuestionario"
+                }, {
+                    "in": "query",
+                    "name": "orderBy",
+                    "schema": {
+                        "type": "string",
+                        "enum": ["questionaryName", "questionaryAudicence", "_id"]
+                    }
+                }],
+                "responses": {
+                    "200": {
+                        "description": "{ data: [], count: 20, offset: 0 }"
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Elimina un cuestionario",
+                "tags": ["questionaries"],
+                "parameters": [{
+                    "name": "id",
+                    "in": "path",
+                    "required": true,
+                    "schema": {
+                        "type": "uuid"
+                    }
+                }],
+                "responses": {
+                    "200": {
+                        "description": "{ message: 'Deleted' }"
+                    }
+                }
+            },
+            "put": {
+                "summary": "Actualiza un cuestionario",
+                "tags": ["questionaries"],
+                "description": "Actualiza un cuestionario a partir del id",
+                "parameters": [{
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "uuid"
+                        }
+                    },{
+                        "in": "body",
+                        "required": true,
+                        "name": "body",
+                        "description": "Esquema del cuerpo",
+                        "schema": {
+                            "properties": {
+                                "questionaryName": {
+                                    "type": "string"
+                                },
+                                "questionaryDescription": {
+                                    "type": "string"
+                                },
+                                "questionaryAudicence": {
+                                    "type": "string"
+                                },
+                                "questionarySections": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "string",
+                                        "format": "uuid"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "in": "header",
+                        "name": "Authorization",
+                        "description": "Access token",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "{ 'id': 'uuid', 'message': 'Updated', 'changes': 0 }"
+                    }
+                }
+            }
+        },
+        "/questionaries/{id}": {
+            "get": {
+                "summary": "Retorna un cuestionario a partir del id",
+                "tags": ["questionaries"],
+                "parameters": [{
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        }
+                    },
+                    {
+                        "in": "header",
+                        "name": "Authorization",
+                        "description": "Access token",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "{ data: {}, message: 'Success' }"
+                    }
+                }
+            }
+        },
+        "/questionaries/{id}/sections": {
+            "get": {
+                "summary": "Retorna las secciones de un cuestionario a partir del id",
+                "tags": ["questionaries"],
+                "parameters": [{
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        }
+                    },
+                    {
+                        "in": "header",
+                        "name": "Authorization",
+                        "description": "Access token",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "{ data: [], message: 'Success' }"
+                    }
+                }
+            }
+        },
+        "/questionaries/{questionaryId}/sections/unanswered/student/{studentId}": {
+            "get": {
+                "summary": "Retorna las secciones de un cuestionario sin contestar de un estudiante",
+                "tags": ["questionaries"],
+                "parameters": [{
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        }
+                    },
+                    {
+                        "in": "header",
+                        "name": "Authorization",
+                        "description": "Access token",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "{ message: 'Se guardaron las respuestas correctamente' }"
+                    }
+                }
+            }
+        },
+        "/questionaries/{questionaryId}/sections/{sectionId}/answers": {
+            "post": {
+                "summary": "Guarda las respuesta de una sección de un cuestionario de un estudiante",
+                "tags": ["questionaries"],
+                "parameters": [{
+                        "name": "questionaryId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        }
+                    },
+                    {
+                        "name": "sectionId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        }
+                    },
+                    {
+                        "in": "body",
+                        "required": true,
+                        "name": "body",
+                        "description": "Esquema del cuerpo",
+                        "schema": {
+                            "properties": {
+                                "studentId": {
+                                    "type": "string",
+                                    "format": "uuid"
+                                },
+                                "answers": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "questionId": {
+                                                "type": "string",
+                                                "format": "uuid"
+                                            },
+                                            "questionAnswer": {
+                                                "type": "string"
+                                            }
+                                            
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "in": "header",
+                        "name": "Authorization",
+                        "description": "Access token",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "{ data: {}, message: 'Success' }"
+                    }
+                }
+            }
+        },
+        "/questionaries/{questionaryId}/sections/{sectionId}/student/{studentId}/answers": {
+            "get": {
+                "summary": "Obtiene las respuesta de una sección de un cuestionario de un estudiante",
+                "tags": ["questionaries"],
+                "parameters": [{
+                        "name": "questionaryId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        }
+                    },
+                    {
+                        "name": "sectionId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        }
+                    },
+                    {
+                        "name": "studentId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        }
+                    }, 
+                    {
+                        "in": "header",
+                        "name": "Authorization",
+                        "description": "Access token",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "{ data: {}, message: 'Success' }"
+                    }
+                }
+            }
+        },
+        "/sections": {
+            "post": {
+                "summary": "Agrega secciones",
+                "tags": ["sections"],
+                "description": "Guarda nuevas secciones",
+                "parameters": [{
+                        "in": "body",
+                        "required": true,
+                        "name": "body",
+                        "description": "Esquema del cuerpo",
+                        "schema": {
+                            "properties": {
+                                "sectionName": {
+                                    "type": "string"
+                                },
+                                "sectionDescription": {
+                                    "type": "string"
+                                },
+                                "sectionQuestions": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "string",
+                                        "format": "uuid"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "in": "header",
+                        "name": "Authorization",
+                        "description": "Access token",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "{ id:uuid, message: Success }"
+                    }
+                }
+            },
+            "get": {
+                "summary": "Regresa una lista de secciones",
+                "tags": ["sections"],
+                "parameters": [{
+                    "in": "query",
+                    "name": "offset",
+                    "schema": {
+                        "type": "integer"
+                    },
+                    "description": "Número entero de items a ignorar al obtener la lista"
+                }, {
+                    "in": "query",
+                    "name": "limit",
+                    "schema": {
+                        "type": "integer"
+                    },
+                    "description": "Número entero de items a retornar"
+                }],
+                "responses": {
+                    "200": {
+                        "description": "{ data: [], count: 20, offset: 0 }"
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Elimina una sección",
+                "tags": ["sections"],
+                "parameters": [{
+                    "name": "id",
+                    "in": "path",
+                    "required": true,
+                    "schema": {
+                        "type": "uuid"
+                    }
+                }],
+                "responses": {
+                    "200": {
+                        "description": "{ message: 'Deleted' }"
+                    }
+                }
+            },
+            "put": {
+                "summary": "Actualiza una sección",
+                "tags": ["sections"],
+                "description": "Actualiza una sección a partir del id",
+                "parameters": [{
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "uuid"
+                        }
+                    },{
+                        "in": "body",
+                        "required": true,
+                        "name": "body",
+                        "description": "Esquema del cuerpo",
+                        "schema": {
+                            "properties": {
+                                "sectionName": {
+                                    "type": "string"
+                                },
+                                "sectionDescription": {
+                                    "type": "string"
+                                },
+                                "sectionQuestions": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "string",
+                                        "format": "uuid"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "in": "header",
+                        "name": "Authorization",
+                        "description": "Access token",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "{ 'id': 'uuid', 'message': 'Updated', 'changes': 0 }"
+                    }
+                }
+            }
+        },
+        "/sections/{id}": {
+            "get": {
+                "summary": "Retorna una sección a partir del id",
+                "tags": ["sections"],
+                "parameters": [{
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        }
+                    },
+                    {
+                        "in": "header",
+                        "name": "Authorization",
+                        "description": "Access token",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "{ data: {}, message: 'Success' }"
+                    }
+                }
+            }
+        },
+        "/sections/{sectionId}/questions": {
+            "get": {
+                "summary": "Retorna las preguntas de una sección a partir del id",
+                "tags": ["sections"],
+                "parameters": [{
+                        "name": "sectionId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        }
+                    },
+                    {
+                        "in": "header",
+                        "name": "Authorization",
+                        "description": "Access token",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "{ data: [], message: 'Success' }"
+                    }
+                }
+            }
+        },
+        "/questions": {
+            "post": {
+                "summary": "Agrega preguntas",
+                "tags": ["questions"],
+                "description": "Guarda nuevas preguntas",
+                "parameters": [{
+                        "in": "body",
+                        "required": true,
+                        "name": "body",
+                        "description": "Esquema del cuerpo\nSi el questionType es 'Text' no se permite agregar questionOptions",
+                        "schema": {
+                            "properties": {
+                                "question": {
+                                    "type": "string"
+                                },
+                                "questionType": {
+                                    "type": "string",
+                                    "enum": ["MultipleOption", "Checkbox", "Text"]
+                                },
+                                "questionOptions": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "in": "header",
+                        "name": "Authorization",
+                        "description": "Access token",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "{ id:uuid, message: Success }"
+                    }
+                }
+            },
+            "get": {
+                "summary": "Regresa una lista de secciones",
+                "tags": ["questions"],
+                "parameters": [{
+                    "in": "query",
+                    "name": "offset",
+                    "schema": {
+                        "type": "integer"
+                    },
+                    "description": "Número entero de items a ignorar al obtener la lista"
+                }, {
+                    "in": "query",
+                    "name": "limit",
+                    "schema": {
+                        "type": "integer"
+                    },
+                    "description": "Número entero de items a retornar"
+                }],
+                "responses": {
+                    "200": {
+                        "description": "{ data: [], count: 20, offset: 0 }"
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Elimina una pregunta",
+                "tags": ["questions"],
+                "parameters": [{
+                    "name": "id",
+                    "in": "path",
+                    "required": true,
+                    "schema": {
+                        "type": "uuid"
+                    }
+                }],
+                "responses": {
+                    "200": {
+                        "description": "{ message: 'Deleted' }"
+                    }
+                }
+            },
+            "put": {
+                "summary": "Actualiza una pregunta",
+                "tags": ["questions"],
+                "description": "Actualiza una pregunta a partir del id",
+                "parameters": [{
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "uuid"
+                        }
+                    },{
+                        "in": "body",
+                        "required": true,
+                        "name": "body",
+                        "description": "Esquema del cuerpo\nSi el questionType es 'Text' no se permite agregar questionOptions",
+                        "schema": {
+                            "properties": {
+                                "question": {
+                                    "type": "string"
+                                },
+                                "questionType": {
+                                    "type": "string",
+                                    "enum": ["MultipleOption", "Checkbox", "Text"]
+                                },
+                                "questionOptions": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "in": "header",
+                        "name": "Authorization",
+                        "description": "Access token",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "{ 'id': 'uuid', 'message': 'Updated', 'changes': 0 }"
+                    }
+                }
+            }
+        },
+        "/questions/{id}": {
+            "get": {
+                "summary": "Retorna una pregunta a partir del id",
+                "tags": ["questions"],
+                "parameters": [{
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        }
+                    },
+                    {
+                        "in": "header",
+                        "name": "Authorization",
+                        "description": "Access token",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "{ data: {}, message: 'Success' }"
+                    }
+                }
+            }
+        },
+        "/answers/{id}": {
+            "get": {
+                "summary": "Retorna una respuesta a partir del id",
+                "tags": ["answers"],
+                "parameters": [{
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        }
+                    },
+                    {
+                        "in": "header",
+                        "name": "Authorization",
+                        "description": "Access token",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "{ data: {}, message: 'Success' }"
+                    }
+                }
+            }
+        },
+        "/answers": {
+            "delete": {
+                "summary": "Elimina una pregunta",
+                "tags": ["answers"],
+                "parameters": [{
+                    "name": "id",
+                    "in": "path",
+                    "required": true,
+                    "schema": {
+                        "type": "uuid"
+                    }
+                }],
+                "responses": {
+                    "200": {
+                        "description": "{ message: 'Deleted' }"
                     }
                 }
             }

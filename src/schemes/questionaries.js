@@ -89,11 +89,6 @@ const getQuestionariesSchm = Joi.object({
     'string.empty': 'El nombre del cuestionario no debe ser un texto vacío',
     'any.required': 'El nombre del cuestionario es un campo requerido'
   }),
-  questionaryAudicence: Joi.string().messages({
-    'string.base': 'La audiencia debe ser un texto',
-    'string.empty': 'La audiencia no debe ser un texto vacío',
-    'any.required': 'La audiencia es un campo requerido'
-  }),
   limit: Joi.number().integer().messages({
     'number.base': 'El límite debe de ser un número',
     'number.integer': 'El límite debe ser un número entero'
@@ -103,7 +98,7 @@ const getQuestionariesSchm = Joi.object({
     'number.integer': '\'offset\' debe ser un número entero'
   }),
   orderBy: Joi.string()
-    .valid('questionaryName', 'questionaryAudicence')
+    .valid('questionaryName', 'questionaryAudicence', '_id')
     .messages({
       'string.base': '\'orderBy\' debe de ser un texto',
       'any.only': '\'orderBy\' solo pueda tomar el valor: \'questionaryName\' ó \'questionaryAudicence\''

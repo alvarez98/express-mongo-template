@@ -32,6 +32,8 @@ mongoose.set('toJSON', {
   },
 })
 
-const URI = `mongodb+srv://${USERNAME}:${PASSWORD}@${HOST}${PORT}/${DB_NAME}`
+const URI = `mongodb${
+  Configuration.get(Keys.DB_PORT) ? '' : '+srv'
+}://${USERNAME}:${PASSWORD}@${HOST}${PORT}/${DB_NAME}`
 
 module.exports = () => mongoose.connect(URI, OPTIONS)

@@ -17,8 +17,8 @@ const {
   getUnansweredSectionsSchm,
 } = require('../schemes/questionaries')
 const { getSectionsByQuestionary } = require('../controllers/sections')
-const { addAnswer } = require('../controllers/answers')
-const { addAnswerSchm, addAnswerParamsSchm } = require('../schemes/answers')
+const { addAnswer, getAnswers } = require('../controllers/answers')
+const { addAnswerSchm, addAnswerParamsSchm, getAnswersByQuestionarySchm, getAnswersQuerySchm } = require('../schemes/answers')
 const validate = require('../middlewares/validate')
 const checkItemExist = require('../middlewares/checkItemExist')
 const models = require('../db/keys')
@@ -87,5 +87,11 @@ router.get(
   checkItemExist(models.QUESTIONARY, 'params', 'questionaryId', 'No se encontró el cuestionario', '_id'),
   getUnansweredSections
 )
-
+router.get(
+  '/:questionaryId/sections/:sectionId/student/:studentId/answers',
+  validate(getAnswersByQuestionarySchm, 'params'),
+  validate(getAnswersQuerySchm, 'query'),
+  checkItemExist(models.QUESTIONARY, 'params', 'questionaryId', 'No se encontró el cuestionario', '_id'),
+  getAnswers
+)
 module.exports = router

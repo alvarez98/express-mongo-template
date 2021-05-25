@@ -1,10 +1,8 @@
 const HttpError = require('../classes/httpError')
-// const add = require('../db/controllers/add')
 const findOne = require('../db/controllers/findOne')
 const find = require('../db/controllers/find')
 const updateOne = require('../db/controllers/updateOne')
 const models = require('../db/keys')
-const { buildAnswerFilters } = require('../db/controllers/buildFilters')
 const add = require('../db/controllers/add')
 const mongoose = require('mongoose')
 
@@ -45,11 +43,10 @@ const addAnswer = async ({ body, params }, res, next) => {
  * @param {Function} next - Express middleware function
  */
 
-const getAnswers = async ({ query }, res, next) => {
+const getAnswers = async ({ params, query }, res, next) => {
   try {
-    let { limit = 20, orderBy = 'user', offset = 0, ...filters } = query
-    filters = buildAnswerFilters(filters)
-    const answer = await find(models.ANSWER, filters, limit, offset, orderBy)
+    let { limit = 20, offset = 0 } = query
+    const answer = await find(models.ANSWER, params, limit, offset)
     res.status(200).json({ data: answer, count: answer.length, offset })
   } catch (error) {
     next(error)

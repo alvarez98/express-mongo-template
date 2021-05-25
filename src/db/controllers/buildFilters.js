@@ -19,7 +19,6 @@ const buildTagFilters = (filters) => {
 
 const buildQuestionaryFilters = (filters) => {
   if (filters.questionaryName) { filters.questionaryName = new RegExp(filters.questionaryName, 'i') }
-  if (filters.questionaryAudicence) { filters.questionaryAudicence = new RegExp(filters.questionaryAudicence, 'i') }
   filters.isActive = true
   return filters
 }
