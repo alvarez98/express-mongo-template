@@ -23,9 +23,8 @@ const server = app.listen(PORT, () => {
 // Socket
 const io = require('socket.io')(server, {
   cors: {
-    origin: 'http://127.0.0.1:5500',
-    methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE', 'OPTIONS'],
-    credentials: true
+    origin: '*',
+    methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE', 'OPTIONS']
   }
 })
 
