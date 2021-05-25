@@ -1,7 +1,12 @@
 const Joi = require('joi')
 
 const addConnSchm = Joi.object({
-  user: Joi.string().uuid().required()
+  user: Joi.string().uuid().required().messages({
+    'string.base': 'El identificador del usuario debe ser un texto',
+    'string.empty': 'El identificador del usuario no debe ser un texto vacío',
+    'string.guid': 'El identificador del usuario debe ser un UUID válido',
+    'any.required': 'El identificador del usuario es un campo requerido'
+  })
 }).unknown(true)
 
 const updateConnSchm = Joi.object({

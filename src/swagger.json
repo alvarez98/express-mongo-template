@@ -1076,6 +1076,88 @@
                     }
                 }
             }
+        },
+        "conexion": {
+            "post": {
+                "summary": "Conexion al socket",
+                "tags": ["socket"],
+                "parameters": [{
+                    "name": "user",
+                    "in": "query",
+                    "required": true,
+                    "schema": {
+                        "type": "string",
+                        "format": "uuid"
+                    }
+                }],
+                "responses": {
+                    "200": {
+                        "description": "{ message: Success }"
+                    }
+                }
+            }
+        },
+        "notification": {
+            "get": {
+                "summary": "Canal para recibir notifcaciones",
+                "tags": ["socket"],
+                "parameters": [{
+                    "in": "body",
+                    "required": true,
+                    "name": "body",
+                    "description": "Esquema del mensaje",
+                    "schema": {
+                        "properties": {
+                            "user": {
+                                "type": "string",
+                                "format": "uuid"
+                            },
+                            "message": {
+                                "type": "string"
+                            },
+                            "subject": {
+                                "type": "string"
+                            },
+                            "date": {
+                                "type": "string",
+                                "format": "date"
+                            },
+                            "data": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }],
+                "responses": {
+                    "200": {
+                        "description": "{ message: Success }"
+                    }
+                }
+            }
+        },
+        "connect_error": {
+            "get": {
+                "summary": "Error al conectarse al socket",
+                "tags": ["socket"],
+                "parameters": [{
+                    "in": "body",
+                    "required": true,
+                    "name": "body",
+                    "description": "Esquema del error",
+                    "schema": {
+                        "properties": {
+                            "message": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }],
+                "responses": {
+                    "200": {
+                        "description": "{ message: Success }"
+                    }
+                }
+            }
         }
     }
 }

@@ -68,53 +68,50 @@
     <div id="app">
       <!-- login page -->
       <div v-if="!isLogin" class="wrapper">
-            <div class="title">
-              <h2>Socket Test</h2>
-            </div>
-          <h6>El username no es importante</h6>
-          <div class="signin">
-            <label class="input">Username:</label>
-            <input
-              type="text"
-              class="form-control input"
-              v-model="username"
-              required
-            />
-          </div>
-          <div class="signin">
-            <label class="input">ID:</label>
-            <input
-              type="text"
-              class="form-control input"
-              v-model="id"
-              required
-            />
-          </div>
-          <div class="login-btn">
-            <button class="btn btn-primary" @click="login">Login</button>
-          </div>
+        <div class="title">
+          <h2>Socket Test</h2>
+        </div>
+        <h6>El username no es importante</h6>
+        <div class="signin">
+          <label class="input">Username:</label>
+          <input
+            type="text"
+            class="form-control input"
+            v-model="username"
+            required
+          />
+        </div>
+        <div class="signin">
+          <label class="input">ID:</label>
+          <input type="text" class="form-control input" v-model="id" required />
+        </div>
+        <div class="login-btn">
+          <button class="btn btn-primary" @click="login">Login</button>
+        </div>
       </div>
       <!-- logged in -->
       <div v-if="isLogin" class="wrapper quiz">
-          <div>
-            <h2>Notifications Example</h2>
+        <div>
+          <h2>Notifications Example</h2>
+        </div>
+        <div>
+          <div class="drawing-tools">
+            <div><b>Your username:</b> {{ username }}</div>
+            <div><b>Your id:</b> {{ id }}</div>
           </div>
-          <div>
-              <div class="drawing-tools">
-                <div><b>Your username:</b> {{ username }}</div>
-                <div><b>Your id:</b> {{ id }}</div>
-            </div>
 
-            <!-- Notifications List -->
-            <div class="notifications">
-                  <ul>
-                    <li v-for="n in notifications">notification: {{ n }}</li>
-                  </ul>
-            </div>
+          <!-- Notifications List -->
+          <div class="notifications">
+            <ul>
+              <li v-for="n in notifications">notification: {{ n }}</li>
+            </ul>
           </div>
-          <div class="login-btn">
-            <button class="btn btn-primary" @click="disconnect">Disconnect</button>
-          </div>
+        </div>
+        <div class="login-btn">
+          <button class="btn btn-primary" @click="disconnect">
+            Disconnect
+          </button>
+        </div>
       </div>
     </div>
     <script src="https://unpkg.com/vue"></script>
@@ -133,6 +130,7 @@
       new Vue({
         el: '#app',
         data: {
+          // baseUrl: 'https://bulk-data-api.herokuapp.com/',
           baseUrl: 'http://localhost:5000',
           socket: null,
           username: null,
@@ -150,6 +148,9 @@
             })
             socket.on('connect', () => {
               console.log(socket.id)
+
+              this.isLogin = true
+              this.socket = socket
             })
             socket.on('notification', (data) => {
               console.log('message', data)
@@ -161,14 +162,12 @@
             socket.on('disconnect', () => {
               console.log('disconnect', socket.id) // undefined
             })
-            this.isLogin = true
-            this.socket = socket
           },
-          disconnect () {
+          disconnect() {
             this.socket.disconnect()
             this.isLogin = false
             this.socket = null
-          }
+          },
         },
       })
       window.app = app
