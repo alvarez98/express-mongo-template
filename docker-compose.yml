@@ -8,7 +8,7 @@ services:
       dockerfile: ./dockerfile
       context: .
     volumes:
-      - .:/usr/src/app
+      - ./src:/usr/src/app/src
     ports:
       - ${PORT}:${PORT}
     command: ${DOCKER_COMMAND}
