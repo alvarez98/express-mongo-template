@@ -1,7 +1,7 @@
 const connection = require('../config.js')
 const models = require('../models/index.js')
 const keys = require('../keys.js')
-const data = require('./data.js')
+const data = require('./questionaries/index.js')
 
 connection()
     .then(async () => {
@@ -13,7 +13,7 @@ connection()
         process.exit(0)
     })
     .catch((err) => {
-        console.log('SEEDING FAILED!!!')
+        console.log('Seeding failed!!!')
         console.log(err)
         process.exit(1)
     })
@@ -26,13 +26,14 @@ const createQuestionaries = async (data) => {
 
 const createQuestionary = async (questData) => {
     // Verify questionary is not already created
-    res = await findOne(models[keys.QUESTIONARY], {questionaryName: questData.questionary[0].questionaryName})
+    res = await findOne(models[keys.QUESTIONARY], {questionaryName: questData.questionary.questionaryName})
     if (res) {
         console.log('Seeding was performed previously on this questionary. Skipping seeding...')
         return
     }
+    console.log('No previous questionary seeding was found. Seeding...')
     // Create questionary, sections...
-    createdQuestionary = await create(models[keys.QUESTIONARY], questData.questionary)
+    createdQuestionary = await create(models[keys.QUESTIONARY], [ questData.questionary ])
     createdSections = await create(models[keys.SECTION], questData.sections)
     // Update info on questionaries
     questionaryId = createdQuestionary.ops[0]._id

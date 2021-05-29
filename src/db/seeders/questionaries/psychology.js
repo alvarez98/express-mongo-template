@@ -1,10 +1,8 @@
-questionary = [
-    {
-        questionaryName: 'Cuestionario de Psicología',
-        questionaryDescription: 'Cuestionario aplicado para evaluar el estado psicoemocional de los estudiantes',
-        questionaryAudicence: 'student'
-    }
-]
+questionary = {
+    questionaryName: 'Cuestionario de Psicología',
+    questionaryDescription: 'Cuestionario aplicado para evaluar el estado psicoemocional de los estudiantes',
+    questionaryAudicence: 'student'
+}
 
 sections = [
     {
