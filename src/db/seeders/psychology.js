@@ -11,6 +11,16 @@ sections = [
         sectionName: 'Estado Mental',
         sectionDescription: 'Esta sección es sobre el estado mental',
         sectionQuestions: []
+    },
+    {
+        sectionName: 'Estado Fisico',
+        sectionDescription: 'Esta sección es sobre el estado fisico',
+        sectionQuestions: []
+    },
+    {
+        sectionName: 'Estado Biologico',
+        sectionDescription: 'Esta sección es sobre el estado biologico',
+        sectionQuestions: []
     }
 ]
 

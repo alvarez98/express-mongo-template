@@ -1,6 +1,6 @@
-const connection = require('../db/config.js')
-const models = require('../db/models/index.js')
-const keys = require('../db/keys.js')
+const connection = require('../config.js')
+const models = require('../models/index.js')
+const keys = require('../keys.js')
 const data = require('./data.js')
 
 connection()
@@ -25,24 +25,32 @@ const createQuestionaries = async (data) => {
 }
 
 const createQuestionary = async (questData) => {
+    // Verify questionary is not already created
+    res = await findOne(models[keys.QUESTIONARY], {questionaryName: questData.questionary[0].questionaryName})
+    if (res) {
+        console.log('Seeding was performed previously on this questionary. Skipping seeding...')
+        return
+    }
     // Create questionary, sections...
     createdQuestionary = await create(models[keys.QUESTIONARY], questData.questionary)
     createdSections = await create(models[keys.SECTION], questData.sections)
     // Update info on questionaries
     questionaryId = createdQuestionary.ops[0]._id
     sectionIds = await createdSections.ops.map((section) => { return section._id })
-    console.log(sectionIds)
     await update(models[keys.QUESTIONARY], questionaryId, { questionarySections: sectionIds })
     // For each section, create questionaries and update their sections
     sectionNo = 0
     for (questions of questData.questions){
         createdQuestions = await create(models[keys.QUESTION], questions)
-        console.log(createdQuestions)
-        questionIds = await createdQuestions.ops.map((question) => { question._id })
-        console.log(questionIds)
-        await update(models[key.SECTION], sectionIds[sectionNo], { sectionQuestions: questionIds })
+        questionIds = await createdQuestions.ops.map((question) => { return question._id })
+        await update(models[keys.SECTION], sectionIds[sectionNo], { sectionQuestions: questionIds })
         sectionNo++
     }
+}
+
+const findOne = async (model, data) => {
+    res = await model.collection.findOne(data)
+    return res
 }
 
 const create = async (model, data) => {
@@ -51,8 +59,7 @@ const create = async (model, data) => {
 }
 
 const update = async (model, id, data) => {
-    console.log(id, data)
-    res = await model.collection.updateOne({ _id: id }, data)
+    res = await model.collection.updateOne({ _id: id }, { $set: data } )
     return res
 }
 
