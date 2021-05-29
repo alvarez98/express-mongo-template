@@ -13,4 +13,6 @@ RUN npm install
 # RUN npm ci --only=production
 
 # Bundle app source
-COPY ./src .
+COPY ./src ./src
+COPY ./Procfile .
+COPY ./.env .
