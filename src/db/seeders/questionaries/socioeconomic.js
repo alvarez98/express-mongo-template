@@ -1,24 +1,27 @@
-questionary = [
+const questionary = [
     {
         questionaryName: 'Cuestionario de Enfermería',
         questionaryDescription: 'Cuestionario para enfermería',
-        questionaryAudicence: 'student'
+        questionaryAudicence: 'student',
+        isActive: true
     }
 ]
 
-sections = [
+const sections = [
     {
         sectionName: 'Sección 1 Salud',
         sectionDescription: 'Descripcion random',
-        sectionQuestions: []
+        sectionQuestions: [],
+        isActive: true
     }
 ]
 
-questions = [
+const questions = [
     [
         {
             question: 'Pregunta X de Medicina',
             questionType: 'Text',
+            isActive: true
         }
     ]
 ]
