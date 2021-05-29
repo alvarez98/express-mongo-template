@@ -26,40 +26,40 @@ const createQuestionaries = async (data) => {
 
 const createQuestionary = async (questData) => {
     // Verify questionary is not already created
-    res = await findOne(models[keys.QUESTIONARY], {questionaryName: questData.questionary.questionaryName})
+    res = await findRegister(models[keys.QUESTIONARY], {questionaryName: questData.questionary.questionaryName})
     if (res) {
         console.log('Seeding was performed previously on this questionary. Skipping seeding...')
         return
     }
     console.log('No previous questionary seeding was found. Seeding...')
     // Create questionary, sections...
-    createdQuestionary = await create(models[keys.QUESTIONARY], [ questData.questionary ])
-    createdSections = await create(models[keys.SECTION], questData.sections)
+    createdQuestionary = await createRegisters(models[keys.QUESTIONARY], [ questData.questionary ])
+    createdSections = await createRegisters(models[keys.SECTION], questData.sections)
     // Update info on questionaries
     questionaryId = createdQuestionary.ops[0]._id
     sectionIds = await createdSections.ops.map((section) => { return section._id })
-    await update(models[keys.QUESTIONARY], questionaryId, { questionarySections: sectionIds })
+    await updateRegister(models[keys.QUESTIONARY], questionaryId, { questionarySections: sectionIds })
     // For each section, create questionaries and update their sections
     sectionNo = 0
     for (questions of questData.questions){
-        createdQuestions = await create(models[keys.QUESTION], questions)
+        createdQuestions = await createRegisters(models[keys.QUESTION], questions)
         questionIds = await createdQuestions.ops.map((question) => { return question._id })
-        await update(models[keys.SECTION], sectionIds[sectionNo], { sectionQuestions: questionIds })
+        await updateRegister(models[keys.SECTION], sectionIds[sectionNo], { sectionQuestions: questionIds })
         sectionNo++
     }
 }
 
-const findOne = async (model, data) => {
+const findRegister = async (model, data) => {
     res = await model.collection.findOne(data)
     return res
 }
 
-const create = async (model, data) => {
+const createRegisters = async (model, data) => {
     res = await model.collection.insertMany(data)
     return res
 }
 
-const update = async (model, id, data) => {
+const updateRegister = async (model, id, data) => {
     res = await model.collection.updateOne({ _id: id }, { $set: data } )
     return res
 }
