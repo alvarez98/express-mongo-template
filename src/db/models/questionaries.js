@@ -6,7 +6,7 @@ const questionarySchema = new mongoose.Schema({
   _id: { type: String, default: uuidv4 },
   questionaryName: { type: String, required: true },
   questionaryDescription: { type: String },
-  questionaryAudicence: { type: String, required: true },
+  questionaryAudicence: { type: String },
   questionarySections: { type: [String], required: true },
   isActive: { type: Boolean, default: true }
 }, { _id: false })

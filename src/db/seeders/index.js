@@ -50,17 +50,17 @@ const createQuestionary = async (questData) => {
 }
 
 const findRegister = async (model, data) => {
-    res = await model.collection.findOne(data)
+    res = await model.findOne(data)
     return res
 }
 
 const createRegisters = async (model, data) => {
-    res = await model.collection.insertMany(data)
+    res = await model.insertMany(data)
     return res
 }
 
 const updateRegister = async (model, id, data) => {
-    res = await model.collection.updateOne({ _id: id }, { $set: data } )
+    res = await model.updateOne({ _id: id }, { $set: data } )
     return res
 }
 
