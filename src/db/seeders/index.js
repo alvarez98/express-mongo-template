@@ -45,8 +45,8 @@ const createQuestionary = async (questData) => {
     questData.sections
   )
   // Update info on questionaries
-  const questionaryId = createdQuestionary.ops[0]._id
-  const sectionIds = await createdSections.ops.map((section) => {
+  const questionaryId = createdQuestionary[0]._id
+  const sectionIds = await createdSections.map((section) => {
     return section._id
   })
   await updateRegister(models[keys.QUESTIONARY], questionaryId, {
@@ -59,7 +59,7 @@ const createQuestionary = async (questData) => {
       models[keys.QUESTION],
       questions
     )
-    const questionIds = await createdQuestions.ops.map((question) => {
+    const questionIds = await createdQuestions.map((question) => {
       return question._id
     })
     await updateRegister(models[keys.SECTION], sectionIds[sectionNo], {
