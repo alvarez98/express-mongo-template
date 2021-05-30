@@ -71,7 +71,7 @@ const getUnansweredSectionsSchm = Joi.object({
     'string.empty': 'El id del estudiante no debe ser un texto vacío',
     'string.guid': 'El id del estudiante debe ser un UUID válido',
     'any.required': 'El id del estudiante es un campo requerido'
-  }),
+  })
 })
 
 const getOneQuestionarySchm = Joi.object({

@@ -5,5 +5,5 @@ module.exports = {
   DB_PASSWORD: 'DB_PASSWORD',
   DB_NAME: 'DB_NAME',
   DB_PORT: 'DB_PORT',
-  JWT_SECRET: 'JWT_SECRET',
+  JWT_SECRET: 'JWT_SECRET'
 }

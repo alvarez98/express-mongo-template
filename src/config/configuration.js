@@ -2,11 +2,11 @@ const fs = require('fs')
 const path = require('path')
 const keys = require('./keys')
 class Configuration {
-  constructor() {
+  constructor () {
     if (Configuration.instance) return Configuration.instance
     this.envConfig = {}
     const { NODE_ENV = 'development' } = process.env
-    let envFileVersion = NODE_ENV === 'test' ? '.env.test' : '.env'
+    const envFileVersion = NODE_ENV === 'test' ? '.env.test' : '.env'
     if (NODE_ENV && NODE_ENV !== 'production') {
       const envFilePath = path.join(__dirname, `../../${envFileVersion}`)
       const existsPath = fs.existsSync(envFilePath)
@@ -22,7 +22,7 @@ class Configuration {
     Configuration.instance = this
   }
 
-  get(key) {
+  get (key) {
     return this.envConfig[key]
   }
 }

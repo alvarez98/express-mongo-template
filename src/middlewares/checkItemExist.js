@@ -13,7 +13,7 @@ const checkItemExist = (
   reqProperty,
   attribute,
   errorMessage,
-  key = attribute,
+  key = attribute
 ) => async (req, res, next) => {
   try {
     const valueToValidate = req[reqProperty][attribute]

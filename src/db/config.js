@@ -13,7 +13,7 @@ const OPTIONS = {
   useNewUrlParser: true,
   connectTimeoutMS: 10000,
   useUnifiedTopology: true,
-  useCreateIndex: true,
+  useCreateIndex: true
   // useFindAndModify: false,
   // autoIndex: false, // Don't build indexes
   // poolSize: 10, // Maintain up to 10 socket connections
@@ -29,7 +29,7 @@ mongoose.set('toJSON', {
     converted.id = converted._id
     delete converted._id
     delete converted.isActive
-  },
+  }
 })
 
 const URI = `mongodb${

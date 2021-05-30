@@ -58,7 +58,7 @@ const getQuestions = async ({ query }, res, next) => {
 
 const getQuestionsBySection = async ({ params, query }, res, next) => {
   try {
-    let { limit = 20, offset = 0 } = query
+    const { limit = 20, offset = 0 } = query
     const section = await findOne(models.SECTION, { _id: params._id })
     let questions = []
     for (const questionId of section.sectionQuestions) {
@@ -69,7 +69,7 @@ const getQuestionsBySection = async ({ params, query }, res, next) => {
     res.status(200).json({
       data: questions,
       count: questions.length,
-      offset,
+      offset
     })
   } catch (error) {
     next(error)

@@ -6,7 +6,7 @@ const {
   deleteAnswer
 } = require('../controllers/answers')
 const {
-  getOneAnswerSchm,
+  getOneAnswerSchm
 } = require('../schemes/answers')
 const validate = require('../middlewares/validate')
 

@@ -6,13 +6,13 @@ const {
   getNotifications,
   getOneNotification,
   updateNotification,
-  deleteNotification,
+  deleteNotification
 } = require('../controllers/notifications')
 const {
   addNtfSchm,
   getOneNtfSchm,
   getNtfsSchm,
-  updateNtfSchm,
+  updateNtfSchm
 } = require('../schemes/notifications')
 const validate = require('../middlewares/validate')
 const checkItemExist = require('../middlewares/checkItemExist')

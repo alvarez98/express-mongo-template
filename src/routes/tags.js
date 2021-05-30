@@ -6,13 +6,13 @@ const {
   getTags,
   getOneTag,
   updateTag,
-  deleteTag,
+  deleteTag
 } = require('../controllers/tags')
 const {
   addTagSchm,
   getOneTagSchm,
   getTagsSchm,
-  updateTagSchm,
+  updateTagSchm
 } = require('../schemes/tags')
 const validate = require('../middlewares/validate')
 const checkItemExist = require('../middlewares/checkItemExist')

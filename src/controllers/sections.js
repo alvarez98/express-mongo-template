@@ -31,7 +31,7 @@ const addSection = async ({ body, params }, res, next) => {
  */
 const getSections = async ({ query }, res, next) => {
   try {
-    let { limit = 20, offset = 0 } = query
+    const { limit = 20, offset = 0 } = query
     const sections = await find(
       models.QUESTIONARY,
       {},
@@ -54,7 +54,7 @@ const getSections = async ({ query }, res, next) => {
 
 const getSectionsByQuestionary = async ({ params, query }, res, next) => {
   try {
-    let { limit = 20, offset = 0 } = query
+    const { limit = 20, offset = 0 } = query
     const questionary = await findOne(models.QUESTIONARY, { _id: params._id })
     let sections = []
     for (const sectionId of questionary.questionarySections) {
@@ -65,7 +65,7 @@ const getSectionsByQuestionary = async ({ params, query }, res, next) => {
     res.status(200).json({
       data: sections,
       count: sections.length,
-      offset,
+      offset
     })
   } catch (error) {
     next(error)
@@ -84,7 +84,7 @@ const getOneSection = async ({ params }, res, next) => {
   try {
     const section = await findOne(models.SECTION, {
       ...params,
-      isActive: true,
+      isActive: true
     })
     if (!section) throw new HttpError(400, 'Section not exist')
     res.status(200).json({ data: section, message: 'Success' })
@@ -142,5 +142,5 @@ module.exports = {
   getSectionsByQuestionary,
   getOneSection,
   updateSection,
-  deleteSection,
+  deleteSection
 }

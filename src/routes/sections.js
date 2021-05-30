@@ -6,13 +6,13 @@ const {
   getSections,
   getOneSection,
   updateSection,
-  deleteSection,
+  deleteSection
 } = require('../controllers/sections')
 const {
   addSectionSchm,
   getOneSectionSchm,
   getSectionsSchm,
-  updateSectionSchm,
+  updateSectionSchm
 } = require('../schemes/sections')
 const { getQuestionsBySection } = require('../controllers/questions')
 const validate = require('../middlewares/validate')

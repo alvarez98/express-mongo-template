@@ -22,7 +22,7 @@ const addAnswer = async ({ body, params }, res, next) => {
       {
         studentId: body.studentId,
         sectionId: params.sectionId,
-        questionaryId: params.questionaryId,
+        questionaryId: params.questionaryId
       },
       { session }
     )
@@ -45,7 +45,7 @@ const addAnswer = async ({ body, params }, res, next) => {
 
 const getAnswers = async ({ params, query }, res, next) => {
   try {
-    let { limit = 20, offset = 0 } = query
+    const { limit = 20, offset = 0 } = query
     const answer = await find(models.ANSWER, params, limit, offset)
     res.status(200).json({ data: answer, count: answer.length, offset })
   } catch (error) {
@@ -110,5 +110,5 @@ module.exports = {
   getAnswers,
   getOneAnswer,
   updateAnswer,
-  deleteAnswer,
+  deleteAnswer
 }

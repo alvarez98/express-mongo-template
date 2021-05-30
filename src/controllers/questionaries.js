@@ -66,7 +66,7 @@ const getUnansweredSections = async ({ params }, res, next) => {
     const unansweredSections = []
     const questionary = await findOne(
       models.QUESTIONARY,
-      { _id: params.questionaryId },
+      { _id: params.questionaryId }
     )
     for (const sectionId of questionary.questionarySections) {
       const wasAnsweredSection = await findOne(models.ANSWERED_SECTION, {
@@ -78,7 +78,7 @@ const getUnansweredSections = async ({ params }, res, next) => {
       if (!wasAnsweredSection) {
         const section = await findOne(
           models.SECTION,
-          { _id: sectionId },
+          { _id: sectionId }
         )
         unansweredSections.push(section)
       }
@@ -102,7 +102,7 @@ const getOneQuestionary = async ({ params }, res, next) => {
   try {
     const questionary = await findOne(models.QUESTIONARY, {
       ...params,
-      isActive: true,
+      isActive: true
     })
     if (!questionary) throw new HttpError(400, 'Questionary not exist')
     res.status(200).json({ data: questionary, message: 'Success' })

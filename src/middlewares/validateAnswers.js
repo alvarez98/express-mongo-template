@@ -13,22 +13,23 @@ const validateAnswers = async (req, res, next) => {
   try {
     const section = await findOne(models.SECTION, {
       _id: req.params.sectionId,
-      isActive: true,
+      isActive: true
     })
-    if (section.sectionQuestions.length !== req.body.answers.length)
+    if (section.sectionQuestions.length !== req.body.answers.length) {
       throw new HttpError(
         400,
         'La cantidad de respuestas no corresponden con el número de preguntas de la sección',
         {
           field: 'answers',
-          value: req.body.answers,
+          value: req.body.answers
         }
       )
+    }
     const formattedAnswers = []
     for (const sectionQuestion of section.sectionQuestions) {
       const question = await findOne(models.QUESTION, {
         _id: sectionQuestion,
-        isActive: true,
+        isActive: true
       })
       const questionInSection = req.body.answers.find(
         (answer) => answer.questionId === sectionQuestion
@@ -36,7 +37,7 @@ const validateAnswers = async (req, res, next) => {
       if (!questionInSection) {
         throw new HttpError(400, `Se necesita respuesta para la pregunta: ${question.question}`, {
           field: 'answers',
-          value: req.body.answers,
+          value: req.body.answers
         })
       }
       if (
@@ -52,18 +53,19 @@ const validateAnswers = async (req, res, next) => {
             questionInSection.questionAnswer.some(
               (answer) => !question.questionOptions.includes(answer)
             )))
-      )
+      ) {
         throw new HttpError(400, 'Respuesta inválida para la pregunta', {
           field: 'answers[].questionAnswer',
-          value: questionInSection.questionAnswer,
+          value: questionInSection.questionAnswer
         })
+      }
 
       formattedAnswers.push({
         questionId: questionInSection.questionId,
         answer: questionInSection.questionAnswer,
         studentId: req.body.studentId,
         sectionId: req.params.sectionId,
-        questionaryId: req.params.questionaryId,
+        questionaryId: req.params.questionaryId
       })
     }
     req.body.answers = formattedAnswers

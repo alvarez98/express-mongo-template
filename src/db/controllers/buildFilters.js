@@ -1,8 +1,8 @@
-const operators = {
-  equal: '$eq',
-  less: '$lte',
-  greater: '$gte'
-}
+// const operators = {
+//   equal: '$eq',
+//   less: '$lte',
+//   greater: '$gte'
+// }
 
 const buildNtfsFilters = (filters) => {
   if (filters.user) filters.user = new RegExp(filters.user, 'i')

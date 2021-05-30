@@ -1,3 +1,3 @@
 module.exports = {
-    Medical: require('./medical')
+  Medical: require('./medical')
 }

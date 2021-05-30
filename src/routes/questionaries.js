@@ -7,14 +7,14 @@ const {
   getOneQuestionary,
   updateQuestionary,
   deleteQuestionary,
-  getUnansweredSections,
+  getUnansweredSections
 } = require('../controllers/questionaries')
 const {
   addQuestionarySchm,
   getOneQuestionarySchm,
   getQuestionariesSchm,
   updateQuestionarySchm,
-  getUnansweredSectionsSchm,
+  getUnansweredSectionsSchm
 } = require('../schemes/questionaries')
 const { getSectionsByQuestionary } = require('../controllers/sections')
 const { addAnswer, getAnswers } = require('../controllers/answers')

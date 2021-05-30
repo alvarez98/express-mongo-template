@@ -6,13 +6,13 @@ const {
   getQuestions,
   getOneQuestion,
   updateQuestion,
-  deleteQuestion,
+  deleteQuestion
 } = require('../controllers/questions')
 const {
   addQuestionSchm,
   getOneQuestionSchm,
   getQuestionsSchm,
-  updateQuestionSchm,
+  updateQuestionSchm
 } = require('../schemes/questions')
 const validate = require('../middlewares/validate')
 const checkItemExist = require('../middlewares/checkItemExist')
