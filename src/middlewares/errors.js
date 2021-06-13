@@ -8,7 +8,7 @@ const HttpError = require('../classes/httpError')
  * @param {Function} next - Express next middleware function
  */
 const handleErrors = (err, req, res, next) => {
-  const { code, name = null, ...body } = err instanceof HttpError
+  const { code, name = 'Error', ...body } = err instanceof HttpError
     ? err
     : { code: 500, message: 'Internal server error' }
   console.log(`${name}: ${err.message}`)

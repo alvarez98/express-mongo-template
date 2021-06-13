@@ -33,7 +33,7 @@ const getSections = async ({ query }, res, next) => {
   try {
     const { limit = 20, offset = 0 } = query
     const sections = await find(
-      models.SECTIONS,
+      models.SECTION,
       {},
       limit,
       offset,

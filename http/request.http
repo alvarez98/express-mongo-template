@@ -1,6 +1,6 @@
 @port = 5000
-# @baseUrl = http://localhost:{{port}}/api/
-@baseUrl = https://bulk-data-api.herokuapp.com/api
+@baseUrl = http://localhost:{{port}}/api
+# @baseUrl = https://bulk-data-api.herokuapp.com/api
 ################################## QUESTIONARIES ################################
 ### POST /api/questionaries
 POST {{baseUrl}}/questionaries
@@ -16,7 +16,7 @@ Content-Type: application/json
 }
 
 ### GET /api/questionaries/:id
-GET {{baseUrl}}/questionaries/7d283f60-d6b1-4155-af4f-550d4eeda9ec
+GET {{baseUrl}}/questionaries/
 Content-Type: application/json
 
 ### GET /api/questionaries
