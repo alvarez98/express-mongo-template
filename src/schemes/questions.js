@@ -22,13 +22,17 @@ const addQuestionSchm = Joi.object({
             Joi.string().messages({
               'string.base': 'Las valores de la lista deben ser textos'
             })
-          )
+          ).min(2)
           .required()
           .messages({
             'array.base': 'Las opciones de la pregunta debe ser una lista',
+            'array.min': 'Se requieren al menos 2 opciones para la pregunta',
             'any.required': 'Las opciones de la pregunta es un campo requerido'
           }),
-        otherwise: Joi.forbidden()
+        otherwise: Joi.array().length(0).messages({
+          'array.base': 'Las opciones de la pregunta debe ser una lista',
+          'array.length': 'Las opciones de la pregunta debe ser una lista vacía'
+        }),
       }
     ])
 })
@@ -45,16 +49,19 @@ const updateQuestionSchm = Joi.object({
             Joi.string().messages({
               'string.base': 'Las valores de la lista deben ser textos'
             })
-          )
+          ).min(2)
           .required()
           .messages({
             'array.base': 'Las opciones de la pregunta debe ser una lista',
+            'array.min': 'Se requieren al menos 2 opciones para la pregunta',
             'any.required': 'Las opciones de la pregunta es un campo requerido'
           }),
-        otherwise: Joi.forbidden()
+        otherwise: Joi.array().length(0).messages({
+          'array.base': 'Las opciones de la pregunta debe ser una lista',
+          'array.length': 'Las opciones de la pregunta debe ser una lista vacía'
+        }),
       }
     ])
-    .required()
 })
 
 const getOneQuestionSchm = Joi.object({

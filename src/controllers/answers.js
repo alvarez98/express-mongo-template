@@ -47,7 +47,7 @@ const getAnswers = async ({ params, query }, res, next) => {
   try {
     const { limit = 20, offset = 0 } = query
     const answer = await find(models.ANSWER, params, limit, offset)
-    res.status(200).json({ data: answer, count: answer.length, offset })
+    res.status(200).json({ result: answer, count: answer.length, offset })
   } catch (error) {
     next(error)
   }
@@ -65,7 +65,7 @@ const getOneAnswer = async ({ params }, res, next) => {
   try {
     const answer = await findOne(models.ANSWER, params)
     if (!answer) throw new HttpError(400, 'Answer not found')
-    res.status(200).json({ data: answer, message: 'Success' })
+    res.status(200).json({ result: answer, message: 'Success' })
   } catch (error) {
     next(error)
   }

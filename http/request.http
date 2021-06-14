@@ -50,7 +50,7 @@ Content-Type: application/json
 {
     "sectionName": "Social 2",
     "sectionDescription": "TEST",
-    "sectionQuestions": ["eb837b9a-4da7-4b62-b2bf-b20685f152e7"]
+    "sectionQuestions": []
 }
 
 ### GET /api/sections/:id
@@ -70,7 +70,7 @@ Content-Type: application/json
 }
 
 ### DELETE /api/sections/:id
-DELETE {{baseUrl}}/sections/68b9c879-feb5-4b33-84c4-3ca5144cfa30
+DELETE {{baseUrl}}/sections/b8f9d0f2-3599-4551-afcb-eee14bf981aa
 Content-Type: application/json
 
 ################################## QUESTIONS ################################
@@ -80,8 +80,8 @@ Content-Type: application/json
 
 {
     "question": "Pregunta 1",
-    "questionType": "MultipleOption",
-    "questionOptions": ["1", "2", "3"]
+    "questionType": "Text",
+    "questionOptions": []
 }
 
 ### GET /api/questions/:id

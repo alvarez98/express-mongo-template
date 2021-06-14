@@ -6,6 +6,7 @@ const connectionSchema = new mongoose.Schema({
   _id: { type: String, default: uuidv4 },
   client: { type: String, unique: true, required: true },
   socket: { type: String, required: true },
+  data: { type: String, required: false },
   isConnected: { type: Boolean, default: true },
   isActive: { type: Boolean, default: true }
 }, { _id: false })

@@ -47,7 +47,7 @@ const getNotifications = async ({ query }, res, next) => {
       offset,
       orderBy
     )
-    res.status(200).json({ data: ntfcs, count: ntfcs.length, offset })
+    res.status(200).json({ result: ntfcs, count: ntfcs.length, offset })
   } catch (error) {
     next(error)
   }
@@ -65,7 +65,7 @@ const getOneNotification = async ({ params }, res, next) => {
   try {
     const notification = await findOne(models.NOTIFICATION, params)
     if (!notification) throw new HttpError(400, 'Notification not found')
-    res.status(200).json({ data: notification, message: 'Success' })
+    res.status(200).json({ result: notification, message: 'Success' })
   } catch (error) {
     next(error)
   }

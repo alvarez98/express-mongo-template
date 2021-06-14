@@ -34,12 +34,12 @@ const getSections = async ({ query }, res, next) => {
     const { limit = 20, offset = 0 } = query
     const sections = await find(
       models.SECTION,
-      {},
+      { isActive: true },
       limit,
       offset,
       'sectionName'
     )
-    res.status(200).json({ data: sections, count: sections.length, offset })
+    res.status(200).json({ result: sections, count: sections.length, offset })
   } catch (error) {
     next(error)
   }
@@ -63,7 +63,7 @@ const getSectionsByQuestionary = async ({ params, query }, res, next) => {
     }
     sections = sections.slice(offset, offset + limit)
     res.status(200).json({
-      data: sections,
+      result: sections,
       count: sections.length,
       offset
     })
@@ -87,7 +87,7 @@ const getOneSection = async ({ params }, res, next) => {
       isActive: true
     })
     if (!section) throw new HttpError(400, 'Section not exist')
-    res.status(200).json({ data: section, message: 'Success' })
+    res.status(200).json({ result: section, message: 'Success' })
   } catch (error) {
     next(error)
   }

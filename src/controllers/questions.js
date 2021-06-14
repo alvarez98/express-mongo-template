@@ -42,7 +42,7 @@ const getQuestions = async ({ query }, res, next) => {
       offset,
       orderBy
     )
-    res.status(200).json({ data: questions, count: questions.length, offset })
+    res.status(200).json({ result: questions, count: questions.length, offset })
   } catch (error) {
     next(error)
   }
@@ -67,7 +67,7 @@ const getQuestionsBySection = async ({ params, query }, res, next) => {
     }
     questions = questions.slice(offset, offset + limit)
     res.status(200).json({
-      data: questions,
+      result: questions,
       count: questions.length,
       offset
     })
@@ -91,7 +91,7 @@ const getOneQuestion = async ({ params }, res, next) => {
       isActive: true
     })
     if (!question) throw new HttpError(400, `Question ${params._id} not exist`)
-    res.status(200).json({ data: question, message: 'Success' })
+    res.status(200).json({ result: question, message: 'Success' })
   } catch (error) {
     next(error)
   }

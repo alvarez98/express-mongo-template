@@ -48,7 +48,7 @@ const getQuestionaries = async ({ query }, res, next) => {
     )
     res
       .status(200)
-      .json({ data: questionaries, count: questionaries.length, offset })
+      .json({ result: questionaries, count: questionaries.length, offset })
   } catch (error) {
     next(error)
   }
@@ -85,7 +85,7 @@ const getUnansweredSections = async ({ params }, res, next) => {
     }
     res
       .status(200)
-      .json({ message: 'Success', data: unansweredSections })
+      .json({ message: 'Success', result: unansweredSections })
   } catch (error) {
     next(error)
   }
@@ -105,7 +105,7 @@ const getOneQuestionary = async ({ params }, res, next) => {
       isActive: true
     })
     if (!questionary) throw new HttpError(400, 'Questionary not exist')
-    res.status(200).json({ data: questionary, message: 'Success' })
+    res.status(200).json({ result: questionary, message: 'Success' })
   } catch (error) {
     next(error)
   }

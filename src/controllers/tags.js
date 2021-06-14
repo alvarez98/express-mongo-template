@@ -35,7 +35,7 @@ const getTags = async ({ query }, res, next) => {
     let { limit = 20, orderBy = 'name', offset = 0, ...filters } = query
     filters = buildTagFilters(filters)
     const tags = await find(models.TAG, filters, limit, offset, orderBy)
-    res.status(200).json({ data: tags, count: tags.length, offset })
+    res.status(200).json({ result: tags, count: tags.length, offset })
   } catch (error) {
     next(error)
   }
@@ -53,7 +53,7 @@ const getOneTag = async ({ params }, res, next) => {
   try {
     const tag = await findOne(models.TAG, params)
     if (!tag) throw new HttpError(400, 'Tag not exist')
-    res.status(200).json({ data: tag, message: 'Success' })
+    res.status(200).json({ result: tag, message: 'Success' })
   } catch (error) {
     next(error)
   }

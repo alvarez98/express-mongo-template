@@ -137,6 +137,9 @@
           id: null,
           isLogin: false,
           notifications: [],
+          data: {
+            url: 'ejemplo.com'
+          }
         },
         methods: {
           async login(event) {
@@ -144,6 +147,7 @@
             const socket = io(this.baseUrl, {
               query: {
                 user: this.id,
+                data: JSON.stringify(this.data)
               },
             })
             socket.on('connect', () => {

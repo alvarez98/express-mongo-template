@@ -6,6 +6,10 @@ const addConnSchm = Joi.object({
     'string.empty': 'El identificador del usuario no debe ser un texto vacío',
     'string.guid': 'El identificador del usuario debe ser un UUID válido',
     'any.required': 'El identificador del usuario es un campo requerido'
+  }),
+  data: Joi.string().messages({
+    'string.base': 'La información extra debe estar en formato JSON',
+    'string.empty': 'La información extra no debe ser un texto vacío'
   })
 }).unknown(true)
 

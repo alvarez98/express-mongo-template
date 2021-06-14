@@ -5,9 +5,10 @@ const models = require('../../db/keys')
 
 const onConnection = async (socket) => {
   try {
-    const client = socket.handshake.query.user
+    const { user: client, data } = socket.handshake.query
     const clientExist = await findOne(models.CONNECTION, {
-      client
+      client,
+      data
     })
     if (clientExist) {
       await updateOne(models.CONNECTION, { _id: clientExist.id }, {
@@ -17,6 +18,7 @@ const onConnection = async (socket) => {
     } else {
       await add(models.CONNECTION, {
         client,
+        data,
         socket: socket.id
       })
     }

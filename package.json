@@ -33,6 +33,7 @@
     "start:dev": "nodemon ./src/server.js",
     "start:prod": "node ./src/server.js",
     "seed": "node ./src/db/seeders/index.js",
+    "seed-start:dev": "npm run seed && npm run start:dev",
     "seed-start:prod": "npm run seed && npm run start:prod",
     "lint": "standard --fix"
   },
