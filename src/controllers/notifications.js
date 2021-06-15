@@ -1,7 +1,7 @@
 const HttpError = require('../classes/httpError')
 const add = require('../db/controllers/add')
 const findOne = require('../db/controllers/findOne')
-const find = require('../db/controllers/find')
+const paginate = require('../db/controllers/paginate')
 const updateOne = require('../db/controllers/updateOne')
 const models = require('../db/keys')
 const { buildNtfsFilters } = require('../db/controllers/buildFilters')
@@ -40,14 +40,14 @@ const getNotifications = async ({ query }, res, next) => {
   try {
     let { limit = 20, orderBy = 'user', offset = 0, ...filters } = query
     filters = buildNtfsFilters(filters)
-    const ntfcs = await find(
+    const ntfcs = await paginate(
       models.NOTIFICATION,
       filters,
       limit,
       offset,
       orderBy
     )
-    res.status(200).json({ result: ntfcs, count: ntfcs.length, offset })
+    res.status(200).json({ results: ntfcs, count: ntfcs.length, offset })
   } catch (error) {
     next(error)
   }
@@ -65,7 +65,7 @@ const getOneNotification = async ({ params }, res, next) => {
   try {
     const notification = await findOne(models.NOTIFICATION, params)
     if (!notification) throw new HttpError(400, 'Notification not found')
-    res.status(200).json({ result: notification, message: 'Success' })
+    res.status(200).json({ data: notification, message: 'Success' })
   } catch (error) {
     next(error)
   }

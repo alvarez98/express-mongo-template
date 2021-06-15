@@ -1,7 +1,7 @@
 const HttpError = require('../classes/httpError')
 const add = require('../db/controllers/add')
 const findOne = require('../db/controllers/findOne')
-const find = require('../db/controllers/find')
+const paginate = require('../db/controllers/paginate')
 const updateOne = require('../db/controllers/updateOne')
 const models = require('../db/keys')
 
@@ -32,14 +32,20 @@ const addSection = async ({ body, params }, res, next) => {
 const getSections = async ({ query }, res, next) => {
   try {
     const { limit = 20, offset = 0 } = query
-    const sections = await find(
+    const sections = await paginate(
       models.SECTION,
       { isActive: true },
       limit,
       offset,
       'sectionName'
     )
-    res.status(200).json({ result: sections, count: sections.length, offset })
+    res
+      .status(200)
+      .json({
+        results: sections.docs,
+        total: sections.total,
+        offset: sections.offset,
+      })
   } catch (error) {
     next(error)
   }
@@ -50,7 +56,7 @@ const getSections = async ({ query }, res, next) => {
  * @param {Object} req - Express request object
  * @param {Object} res - Express response object
  * @param {Function} next - Express middleware function
-*/
+ */
 
 const getSectionsByQuestionary = async ({ params, query }, res, next) => {
   try {
@@ -63,9 +69,9 @@ const getSectionsByQuestionary = async ({ params, query }, res, next) => {
     }
     sections = sections.slice(offset, offset + limit)
     res.status(200).json({
-      result: sections,
+      results: sections,
       count: sections.length,
-      offset
+      offset,
     })
   } catch (error) {
     next(error)
@@ -78,16 +84,16 @@ const getSectionsByQuestionary = async ({ params, query }, res, next) => {
  * @param {Object} req
  * @param {Object} res
  * @param {Function} next
-*/
+ */
 
 const getOneSection = async ({ params }, res, next) => {
   try {
     const section = await findOne(models.SECTION, {
       ...params,
-      isActive: true
+      isActive: true,
     })
     if (!section) throw new HttpError(400, 'Section not exist')
-    res.status(200).json({ result: section, message: 'Success' })
+    res.status(200).json({ data: section, message: 'Success' })
   } catch (error) {
     next(error)
   }
@@ -99,7 +105,7 @@ const getOneSection = async ({ params }, res, next) => {
  * @param {Object} req
  * @param {Object} res
  * @param {Function} next
-*/
+ */
 
 const updateSection = async ({ params, body }, res, next) => {
   try {
@@ -142,5 +148,5 @@ module.exports = {
   getSectionsByQuestionary,
   getOneSection,
   updateSection,
-  deleteSection
+  deleteSection,
 }

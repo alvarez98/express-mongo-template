@@ -1,10 +1,11 @@
 const HttpError = require('../classes/httpError')
 const add = require('../db/controllers/add')
 const findOne = require('../db/controllers/findOne')
-const find = require('../db/controllers/find')
+// const find = require('../db/controllers/find')
 const updateOne = require('../db/controllers/updateOne')
 const models = require('../db/keys')
 const { buildTagFilters } = require('../db/controllers/buildFilters')
+const paginate = require('../db/controllers/paginate')
 
 /**
  * @function addTag
@@ -34,8 +35,10 @@ const getTags = async ({ query }, res, next) => {
   try {
     let { limit = 20, orderBy = 'name', offset = 0, ...filters } = query
     filters = buildTagFilters(filters)
-    const tags = await find(models.TAG, filters, limit, offset, orderBy)
-    res.status(200).json({ result: tags, count: tags.length, offset })
+    const tags = await paginate(models.TAG, filters, limit, offset, orderBy)
+    res
+      .status(200)
+      .json({ results: tags.docs, total: tags.total, offset: tags.offset })
   } catch (error) {
     next(error)
   }
@@ -53,7 +56,7 @@ const getOneTag = async ({ params }, res, next) => {
   try {
     const tag = await findOne(models.TAG, params)
     if (!tag) throw new HttpError(400, 'Tag not exist')
-    res.status(200).json({ result: tag, message: 'Success' })
+    res.status(200).json({ data: tag, message: 'Success' })
   } catch (error) {
     next(error)
   }
@@ -93,7 +96,9 @@ const deleteTag = async ({ params }, res, next) => {
       { ...params, isActive: true },
       { isActive: false }
     )
-    if (!resp.nModified) { throw new HttpError(400, `Tag ${params._id} not exist`) }
+    if (!resp.nModified) {
+      throw new HttpError(400, `Tag ${params._id} not exist`)
+    }
     res.status(200).json({ id: params._id, message: 'Deleted' })
   } catch (error) {
     next(error)
@@ -105,5 +110,5 @@ module.exports = {
   getTags,
   getOneTag,
   updateTag,
-  deleteTag
+  deleteTag,
 }

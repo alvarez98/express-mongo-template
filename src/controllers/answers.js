@@ -1,6 +1,6 @@
 const HttpError = require('../classes/httpError')
 const findOne = require('../db/controllers/findOne')
-const find = require('../db/controllers/find')
+const paginate = require('../db/controllers/paginate')
 const updateOne = require('../db/controllers/updateOne')
 const models = require('../db/keys')
 const add = require('../db/controllers/add')
@@ -46,8 +46,8 @@ const addAnswer = async ({ body, params }, res, next) => {
 const getAnswers = async ({ params, query }, res, next) => {
   try {
     const { limit = 20, offset = 0 } = query
-    const answer = await find(models.ANSWER, params, limit, offset)
-    res.status(200).json({ result: answer, count: answer.length, offset })
+    const answers = await paginate(models.ANSWER, params, limit, offset)
+    res.status(200).json({ results: answers.docs, total: answers.total, offset: answers.offset })
   } catch (error) {
     next(error)
   }
@@ -65,7 +65,7 @@ const getOneAnswer = async ({ params }, res, next) => {
   try {
     const answer = await findOne(models.ANSWER, params)
     if (!answer) throw new HttpError(400, 'Answer not found')
-    res.status(200).json({ result: answer, message: 'Success' })
+    res.status(200).json({ data: answer, message: 'Success' })
   } catch (error) {
     next(error)
   }

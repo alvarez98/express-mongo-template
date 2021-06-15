@@ -1,7 +1,7 @@
 const HttpError = require('../classes/httpError')
 const add = require('../db/controllers/add')
 const findOne = require('../db/controllers/findOne')
-const find = require('../db/controllers/find')
+const paginate = require('../db/controllers/paginate')
 const updateOne = require('../db/controllers/updateOne')
 const models = require('../db/keys')
 const { buildQuestionaryFilters } = require('../db/controllers/buildFilters')
@@ -39,7 +39,7 @@ const getQuestionaries = async ({ query }, res, next) => {
       ...filters
     } = query
     filters = buildQuestionaryFilters(filters)
-    const questionaries = await find(
+    const questionaries = await paginate(
       models.QUESTIONARY,
       filters,
       limit,
@@ -48,7 +48,11 @@ const getQuestionaries = async ({ query }, res, next) => {
     )
     res
       .status(200)
-      .json({ result: questionaries, count: questionaries.length, offset })
+      .json({
+        results: questionaries.docs,
+        total: questionaries.total,
+        offset: questionaries.offset,
+      })
   } catch (error) {
     next(error)
   }
@@ -64,28 +68,22 @@ const getQuestionaries = async ({ query }, res, next) => {
 const getUnansweredSections = async ({ params }, res, next) => {
   try {
     const unansweredSections = []
-    const questionary = await findOne(
-      models.QUESTIONARY,
-      { _id: params.questionaryId }
-    )
+    const questionary = await findOne(models.QUESTIONARY, {
+      _id: params.questionaryId,
+    })
     for (const sectionId of questionary.questionarySections) {
       const wasAnsweredSection = await findOne(models.ANSWERED_SECTION, {
         questionaryId: params.questionaryId,
         studentId: params.studentId,
         isActive: true,
-        sectionId
+        sectionId,
       })
       if (!wasAnsweredSection) {
-        const section = await findOne(
-          models.SECTION,
-          { _id: sectionId }
-        )
+        const section = await findOne(models.SECTION, { _id: sectionId })
         unansweredSections.push(section)
       }
     }
-    res
-      .status(200)
-      .json({ message: 'Success', result: unansweredSections })
+    res.status(200).json({ message: 'Success', results: unansweredSections })
   } catch (error) {
     next(error)
   }
@@ -102,10 +100,10 @@ const getOneQuestionary = async ({ params }, res, next) => {
   try {
     const questionary = await findOne(models.QUESTIONARY, {
       ...params,
-      isActive: true
+      isActive: true,
     })
     if (!questionary) throw new HttpError(400, 'Questionary not exist')
-    res.status(200).json({ result: questionary, message: 'Success' })
+    res.status(200).json({ data: questionary, message: 'Success' })
   } catch (error) {
     next(error)
   }
@@ -140,14 +138,11 @@ const updateQuestionary = async ({ params, body }, res, next) => {
 
 const deleteQuestionary = async ({ params }, res, next) => {
   try {
-    const resp = await updateOne(
+    await updateOne(
       models.QUESTIONARY,
       { ...params, isActive: true },
       { isActive: false }
     )
-    if (!resp.nModified) {
-      throw new HttpError(400, `Questionary ${params._id} not exist`)
-    }
     res.status(200).json({ id: params._id, message: 'Deleted' })
   } catch (error) {
     next(error)
@@ -160,5 +155,5 @@ module.exports = {
   getOneQuestionary,
   updateQuestionary,
   deleteQuestionary,
-  getUnansweredSections
+  getUnansweredSections,
 }

@@ -1,7 +1,7 @@
 const HttpError = require('../classes/httpError')
 const add = require('../db/controllers/add')
 const findOne = require('../db/controllers/findOne')
-const find = require('../db/controllers/find')
+const paginate = require('../db/controllers/paginate')
 const updateOne = require('../db/controllers/updateOne')
 const models = require('../db/keys')
 const { buildQuestionFilters } = require('../db/controllers/buildFilters')
@@ -35,14 +35,20 @@ const getQuestions = async ({ query }, res, next) => {
   try {
     let { limit = 20, orderBy = 'order', offset = 0, ...filters } = query
     filters = buildQuestionFilters(filters)
-    const questions = await find(
+    const questions = await paginate(
       models.QUESTION,
       filters,
       limit,
       offset,
       orderBy
     )
-    res.status(200).json({ result: questions, count: questions.length, offset })
+    res
+      .status(200)
+      .json({
+        result: questions.docs,
+        total: questions.total,
+        offset: questions.offset,
+      })
   } catch (error) {
     next(error)
   }
@@ -69,7 +75,7 @@ const getQuestionsBySection = async ({ params, query }, res, next) => {
     res.status(200).json({
       result: questions,
       count: questions.length,
-      offset
+      offset,
     })
   } catch (error) {
     next(error)
@@ -88,7 +94,7 @@ const getOneQuestion = async ({ params }, res, next) => {
   try {
     const question = await findOne(models.QUESTION, {
       ...params,
-      isActive: true
+      isActive: true,
     })
     if (!question) throw new HttpError(400, `Question ${params._id} not exist`)
     res.status(200).json({ result: question, message: 'Success' })
@@ -131,7 +137,9 @@ const deleteQuestion = async ({ params }, res, next) => {
       { ...params, isActive: true },
       { isActive: false }
     )
-    if (!resp.nModified) { throw new HttpError(400, `Question ${params._id} not exist`) }
+    if (!resp.nModified) {
+      throw new HttpError(400, `Question ${params._id} not exist`)
+    }
     res.status(200).json({ id: params._id, message: 'Deleted' })
   } catch (error) {
     next(error)
@@ -144,5 +152,5 @@ module.exports = {
   getQuestionsBySection,
   getOneQuestion,
   updateQuestion,
-  deleteQuestion
+  deleteQuestion,
 }
